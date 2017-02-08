@@ -1,3 +1,72 @@
-<h1>
-  {{title}}
-</h1>
+<md-sidenav-layout [class.m2app-dark]="isDarkTheme">
+    <md-sidenav #sidenav mode="side" class="md-sidenav-left">
+        <md-card style="text-align: center">
+            <h3>שלום דנה</h3>
+            <p>מעצבת</p>
+        </md-card>
+        <md-card style="text-align: center">
+            <button md-raised-button color="primary">Log out
+                <i class="material-icons">power_settings_new</i>
+            </button>
+        </md-card>
+    </md-sidenav>
+
+    <md-toolbar color="primary">
+        <button class="app-icon-button" (click)="sidenav.toggle()">
+             <i class="material-icons app-toolbar-menu">menu</i>
+        </button> מערכת ניהול בריפים
+
+        <span class="app-toolbar-filler"></span>
+        <button md-button (click)="isDarkTheme = !isDarkTheme" class="brand-logo">DALIA INBAR</button>
+    </md-toolbar>
+
+    <div class="app-content">
+
+        <md-card>
+            <button md-raised-button color="primary">צור בריף חדש
+                <i class="material-icons">note_add</i>
+            </button>
+
+            <button md-raised-button color="primary">הוסף משתמש חדש
+                <i class="material-icons">sentiment_satisfied</i>
+            </button>
+
+            <button md-raised-button color="primary">רשימת בריפים
+                <i class="material-icons">pageview</i>
+            </button>
+        </md-card>
+
+        <md-card class="app-input-section">
+            <md-input placeholder="שם"></md-input>
+
+            <md-input id="des" #nickname placeholder="תיאור" maxlength="200">
+                <md-hint align="end">
+                    {{nickname.characterCount}} / 200
+                </md-hint>
+            </md-input>
+
+            <button md-button [md-menu-trigger-for]="formatMenu">פורמט</button>
+            <button md-button [md-menu-trigger-for]="assignMenu">שייך ל</button>
+
+
+            <button class="save-button" md-raised-button color="primary">שמור</button>
+        </md-card>
+
+        <md-menu #formatMenu="mdMenu">
+            <button *ngFor="let item of formats" md-menu-item>{{item.name}}</button>
+        </md-menu>
+
+        <md-menu #assignMenu="mdMenu">
+            <button *ngFor="let item of users" md-menu-item>{{item.name}}</button>
+        </md-menu>
+
+        <md-card>
+            <p>Last dialog result: {{lastDialogResult}}</p>
+            <button md-raised-button (click)="openDialog()">Comment</button>
+        </md-card>
+    </div>
+</md-sidenav-layout>
+
+<span class="app-action" [class.m2app-dark]="isDarkTheme">
+  <button md-fab><md-icon>add</md-icon></button>
+</span>
