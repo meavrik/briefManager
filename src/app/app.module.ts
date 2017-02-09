@@ -1,4 +1,4 @@
-import {MdSliderModule} from '@angular/material/slider';
+import { MdSliderModule } from '@angular/material/slider';
 import { TaskManagerModule } from './task-manager/task-manager.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';

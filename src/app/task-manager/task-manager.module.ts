@@ -1,4 +1,4 @@
-import {ReactiveFormsModule} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '@angular/material';
 import { DialogContent } from './dialog-content';
 import { TasksService } from './../tasks.service';
@@ -11,6 +11,12 @@ import { TaskManagerNewTaskComponent } from './task-manager-new-task.component';
 import { DatePickerModule } from 'ng2-datepicker';
 //import {DatePickerModule} from 'ng2-datepicker-bootstrap';
 import { FormsModule } from '@angular/forms';
+import { TaskManagerMenuComponent } from './task-manager-menu.component';
+import { TaskManagerToolbarComponent } from './task-manager-toolbar.component';
+import { TaskManagerSidenavComponent } from './task-manager-sidenav.component';
+import { AutoCompleteModule } from 'primeng/primeng';
+
+import {DropdownModule} from 'primeng/primeng';
 
 @NgModule({
   entryComponents: [DialogContent],
@@ -19,10 +25,21 @@ import { FormsModule } from '@angular/forms';
     MaterialModule.forRoot(),
     ReactiveFormsModule,
     FormsModule,
-    DatePickerModule
+    DatePickerModule,
+    AutoCompleteModule,
+    DropdownModule
   ],
-  providers : [TasksService],
-  declarations: [DialogContent,TaskManagerMainComponent, TaskManagerTasksListComponent, TaskManagerTasksListItemComponent, TaskManagerNewTaskComponent],
-  exports :[TaskManagerMainComponent,TaskManagerNewTaskComponent],
+  providers: [TasksService],
+  declarations: [
+    DialogContent,
+    TaskManagerMainComponent,
+    TaskManagerTasksListComponent,
+    TaskManagerTasksListItemComponent,
+    TaskManagerNewTaskComponent,
+    TaskManagerMenuComponent,
+    TaskManagerToolbarComponent,
+    TaskManagerSidenavComponent
+  ],
+  exports: [TaskManagerMainComponent, TaskManagerNewTaskComponent, TaskManagerSidenavComponent, TaskManagerToolbarComponent],
 })
 export class TaskManagerModule { }
