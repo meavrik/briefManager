@@ -21,32 +21,32 @@ export class TasksService {
 
   tickets: any[] = [
     {
-      name: 'task1',
-      description:'bgfb gfbhgfh hfgh fghlfkg;hlkgl hfgh kgf;hk fg;hl kgfl;h', 
+      name: 'משימה 1',
+      description:'מיתוג מחדש של הכול + לוגו והרבה דברים יפים', 
       formats:[{name:"A4"},{name:"A5"},],
       dueData:456546546
     },
     {
-      name: 'task2',
-      description:'bgfb gfbhgfh hfgh fghlfkg;hlkgl hfgh kgf;hk fg;hl kgfl;h', 
+      name: 'משימה',
+      description:'עיצוב מגניב של בל בלה', 
       formats:[{name:"A4"},{name:"A5"},],
       dueData:456546546
     },
     {
-      name: 'task3',
-      description:'bgfb gfbhgfh hfgh fghlfkg;hlkgl hfgh kgf;hk fg;hl kgfl;h', 
+      name: 'משימה',
+      description:'עוד דברים יפים', 
       formats:[{name:"A4"},{name:"A5"},],
       dueData:456546546
     },
     {
-      name: 'task4',
-      description:'bgfb gfbhgfh hfgh fghlfkg;hlkgl hfgh kgf;hk fg;hl kgfl;h', 
+      name: 'משימה',
+      description:'מיתוג מחדש של הפלאפל', 
       formats:[{name:"A4"},{name:"A5"},],
       dueData:456546546
     },
     {
-      name: 'task5',
-      description:'bgfb gfbhgfh hfgh fghlfkg;hlkgl hfgh kgf;hk fg;hl kgfl;h', 
+      name: 'משימה גדולה',
+      description:'brand all again', 
       formats:[{name:"A4"},{name:"A5"},],
       dueData:456546546
     },

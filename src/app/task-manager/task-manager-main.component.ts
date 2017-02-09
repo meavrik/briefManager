@@ -1,4 +1,12 @@
-<md-sidenav-layout [class.m2app-dark]="isDarkTheme">
+import { DialogContent } from './dialog-content';
+import { TasksService } from './../tasks.service';
+import { Component, OnInit } from '@angular/core';
+import { MdDialog } from '@angular/material';
+
+@Component({
+    selector: 'task-manager-main',
+    template: `
+    <md-sidenav-layout [class.m2app-dark]="isDarkTheme">
     <md-sidenav #sidenav mode="side" class="md-sidenav-left">
         <md-card style="text-align: center">
             <h3>שלום דנה</h3>
@@ -21,7 +29,6 @@
     </md-toolbar>
 
     <div class="app-content">
-
         <md-card>
             <button md-raised-button color="primary">צור בריף חדש
                 <i class="material-icons">note_add</i>
@@ -36,29 +43,15 @@
             </button>
         </md-card>
 
-        <md-card class="app-input-section">
-            <md-input placeholder="שם"></md-input>
+        <div class="app-content-inner">
+            
+                <task-manager-new-task></task-manager-new-task>
 
-            <md-input id="des" #nickname placeholder="תיאור" maxlength="200">
-                <md-hint align="end">
-                    {{nickname.characterCount}} / 200
-                </md-hint>
-            </md-input>
+            
+             
+                <task-manager-tasks-list [tasks]="tickets"></task-manager-tasks-list>
 
-            <button md-button [md-menu-trigger-for]="formatMenu">פורמט</button>
-            <button md-button [md-menu-trigger-for]="assignMenu">שייך ל</button>
-
-
-            <button class="save-button" md-raised-button color="primary">שמור</button>
-        </md-card>
-
-        <md-menu #formatMenu="mdMenu">
-            <button *ngFor="let item of formats" md-menu-item>{{item.name}}</button>
-        </md-menu>
-
-        <md-menu #assignMenu="mdMenu">
-            <button *ngFor="let item of users" md-menu-item>{{item.name}}</button>
-        </md-menu>
+        </div>
 
         <md-card>
             <p>Last dialog result: {{lastDialogResult}}</p>
@@ -70,3 +63,25 @@
 <span class="app-action" [class.m2app-dark]="isDarkTheme">
   <button md-fab><md-icon>add</md-icon></button>
 </span>
+  `,
+})
+export class TaskManagerMainComponent {
+
+    isDarkTheme: boolean = false;
+    lastDialogResult: string;
+
+    tickets;
+
+    constructor(private _dialog: MdDialog, private _tasks: TasksService) {
+
+        this.tickets = _tasks.tickets;
+    }
+
+    openDialog() {
+        let dialogRef = this._dialog.open(DialogContent);
+
+        dialogRef.afterClosed().subscribe(result => {
+            this.lastDialogResult = result;
+        })
+    }
+}

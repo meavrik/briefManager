@@ -1,25 +1,23 @@
-import { TasksService } from './tasks.service';
+import {MdSliderModule} from '@angular/material/slider';
+import { TaskManagerModule } from './task-manager/task-manager.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-
-import { AppComponent, DialogContent } from './app.component';
-import { MaterialModule } from '@angular/material';
+import { AppComponent } from './app.component';
 
 @NgModule({
   declarations: [
-    AppComponent,DialogContent
+    AppComponent
   ],
   imports: [
-    MaterialModule.forRoot(),
     BrowserModule,
     FormsModule,
     HttpModule,
-    
+    TaskManagerModule,
+    MdSliderModule
   ],
-  entryComponents: [DialogContent],
-  providers: [TasksService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
