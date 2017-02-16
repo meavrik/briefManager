@@ -1,37 +1,32 @@
+import { BriefTask } from './../task';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { TasksService } from '../tasks.service';
 import { Component, OnInit } from '@angular/core';
-import {SelectItem} from 'primeng/primeng';
+import { SelectItem } from 'primeng/primeng';
 import { MenuItem } from 'primeng/primeng';
-import 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/map';
 
 @Component({
     selector: 'task-manager-new-task',
     template: `
     <md-card class="app-input-section">
-
+        
         <form [formGroup]="dataForm">
-            <p-autoComplete formControlName="name" [suggestions]="results" placeholder="כותרת"></p-autoComplete>
-               <p-dropdown [options]="cities" formControlName="city"></p-dropdown>
-
-            <md-input placeholder="שם"></md-input>
-            <md-input id="des" #nickname placeholder="תיאור" maxlength="200">
-                <md-hint align="end">
-                    {{nickname.characterCount}} / 200
-                </md-hint>
-            </md-input>
-
-            <ng2-datepicker formControlName="date" ></ng2-datepicker>
             
-            <button md-button [md-menu-trigger-for]="assignMenu">לקוח</button>
-            <button md-button [md-menu-trigger-for]="formatMenu">פורמט</button>
-            <button md-button [md-menu-trigger-for]="assignMenu">שייך ל</button>
+            <p-autoComplete formControlName="title" [suggestions]="results" placeholder="כותרת"></p-autoComplete>
+            <p-calendar formControlName="due" [(ngModel)]="value" placeholder="תאריך יעד" [showTime]="true"></p-calendar>
+            <br/>
+            <br/>
+            <textarea rows="5" cols="30" pInputTextarea placeholder="תיאור"></textarea>  
             
-            
-            <div>
-                <p>חשיבות</p>
-                <md-slider tick-interval="auto" > </md-slider>
-            </div>
+             
+            <p-dropdown formControlName="client" [options]="clients" [(ngModel)]="selectedClient"></p-dropdown>
+            <p-multiSelect formControlName="city" defaultLabel="בחר פורמט" [options]="formats" [(ngModel)]="selectedFormats"></p-multiSelect>
+            <br/>
+            <input type="text" placeholder="{{val}}"/>
+            <p-slider formControlName="step" [(ngModel)]="val" [min]="1" [max]="5"></p-slider>
 
             <md-menu #formatMenu="mdMenu">
             <button *ngFor="let item of formats" md-menu-item>{{item.name}}</button>
@@ -44,8 +39,6 @@ import 'rxjs';
             
             <button (click)="onSave()" class="save-button" md-raised-button color="primary">שמור</button>
         </form>
-    
-        
     </md-card>
   `,
     styles: [`
@@ -59,46 +52,63 @@ import 'rxjs';
 export class TaskManagerNewTaskComponent implements OnInit {
     formats;
     users;
+    clients;
     dataForm: FormGroup;
     cities: SelectItem[];
-    selectedCity: string;
+    selectedFormats: any;
+    selectedClient: any;
+    val: number;
+    value: Date;
+    _tasks: BriefTask[]=[];
 
-    constructor(private formBuilder: FormBuilder, private _tasks: TasksService) {
-        this.formats = _tasks.formats;
-        this.users = _tasks.users;
-
-
-        this.cities = [];
-        this.cities.push({label:'Select City', value:null});
-        this.cities.push({label:'New York', value:{id:1, name: 'New York', code: 'NY'}});
-        this.cities.push({label:'Rome', value:{id:2, name: 'Rome', code: 'RM'}});
-        this.cities.push({label:'London', value:{id:3, name: 'London', code: 'LDN'}});
-        this.cities.push({label:'Istanbul', value:{id:4, name: 'Istanbul', code: 'IST'}});
-        this.cities.push({label:'Paris', value:{id:5, name: 'Paris', code: 'PRS'}});
+    constructor(private formBuilder: FormBuilder, private _tasksService: TasksService) {
+        this.formats = _tasksService.formats;
+        this.users = _tasksService.users;
+        this.clients = _tasksService.clients;
     }
 
     ngOnInit() {
         this.dataForm = this.formBuilder.group({
-            name:'',
+            title: '',
+            description: '',
+            step: '',
+            client: '',
             date: '',
-            city:""
+            city: "",
+            due: "",
         });
     }
 
-    onSave(){
-        console.log("SAVE!");
-        
+    onSave() {
+
+        console.log("SAVE! ");
+        let task: BriefTask = {
+            id:1,
+            name: "test",
+            description: "bla bla"
+        }
+        //this._tasksService.saveTask(task);
+
+        if (!task) { return; }
+        // this._tasksService.addTask(task).subscribe(task  => this._tasks.push(task));
+        //this._tasksService.addTask(task).subscribe(task => this.immutablePush(this._tasks, task));
+
+        this._tasksService.addTask(task)
+          .then(task => {
+            this._tasks.push(task);
+          });
     }
 
-
-
+    immutablePush(arr, newEntry) {
+        return [...arr, newEntry]
+    }
 
     text: string;
-    
-    results: string[] = ["apple","banana","orange"];
-    
+
+    results: string[] = ["apple", "banana", "orange"];
+
     /*search(event) {
-        this._tasks.getTasks().then(data => {
+        this._tasksService.getTasks().then(data => {
             this.results = data;
         });
     }*/

@@ -1,4 +1,4 @@
-import { MdSliderModule } from '@angular/material/slider';
+import {RouterModule} from '@angular/router';
 import { TaskManagerModule } from './task-manager/task-manager.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -15,7 +15,7 @@ import { AppComponent } from './app.component';
     FormsModule,
     HttpModule,
     TaskManagerModule,
-    MdSliderModule
+    RouterModule.forRoot([])
   ],
   providers: [],
   bootstrap: [AppComponent]

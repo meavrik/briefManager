@@ -10,11 +10,12 @@ import { Component, OnInit, Input } from '@angular/core';
   `,
   styles: [
     `md-card{
-        width:90%;
+        
         margin:2px;
     }
     .app-input-section {
       height:100px;
+      
     }
     `]
 })

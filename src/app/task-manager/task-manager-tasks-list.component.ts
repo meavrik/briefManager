@@ -8,11 +8,11 @@ import {Input, Component,  OnInit} from '@angular/core';
     </md-card>
   `,
   styles: [`
-  md-card {
-    display:flex;
-    flex-direction: column;
-    
-  }
+        md-card {
+          display:flex;
+          flex-direction: column;
+          
+        }
 
   
   `]
