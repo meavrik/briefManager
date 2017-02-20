@@ -1,3 +1,4 @@
+import { TaskManagerProjectsModule } from './task-manager-projects/task-manager-projects.module';
 import { TaskManagerOverviewModule } from './task-manager-overview/task-manager-overview.module';
 import { TaskManagerUsersModule } from './task-manager-users/task-manager-users.module';
 import { TaskManagerBriefsModule } from './task-manager-briefs/task-manager-briefs.module';
@@ -26,12 +27,12 @@ import { TabViewModule } from 'primeng/primeng';
     TaskManagerClientsModule,
     TaskManagerBriefsModule,
     TaskManagerUsersModule,
-    TaskManagerOverviewModule
+    TaskManagerOverviewModule,
+    TaskManagerProjectsModule
   ],
   providers: [TasksService],
   declarations: [
     TaskManagerMainComponent,
-
     TaskManagerMenuComponent,
     TaskManagerToolbarComponent,
     TaskManagerSidenavComponent,

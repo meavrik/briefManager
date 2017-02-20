@@ -1,37 +1,36 @@
 import { MenuItem } from 'primeng/primeng';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'task-manager-overview-item',
   template: `
-
-    <button [ngClass]="butnClass" pButton type="text" [label]="title" ></button>
+    <p-toggleButton #butn [(ngModel)]="checked" onIcon="fa-check-square" [onLabel]="title" [offLabel]="title" 
+    (click)="onClick()" 
+    [style]="{'width':'100%'}"
+    class="ui-button-icon-left"
+    ></p-toggleButton>
     <br/>
-    <br/>
-
   `,
-  styles: [`.item:{
-    background-color:red;
-  }`]
+  styles: []
 })
 export class TaskManagerOverviewItemComponent implements OnInit {
 
-  @Input() title:string;
-  @Input() status:number=0;
+  @Input() title: string;
+  @Input() status: number = 0;
 
-  butnClassArr:string[] = ["ui-button-danger","ui-button-warning","ui-button-default","ui-button-success"]
+  checked: boolean = false;
+  butnClassArr: string[] = ["ui-button-danger", "ui-button-warning", "ui-button-default", "ui-button-success"]
   items: MenuItem[] = [];
   butnClass = "ui-button-danger";
 
-  constructor() 
-  { 
+  constructor() {
 
   }
 
   ngOnInit() {
-    console.log("status= "+this.status);
-    
-    this.butnClass=this.butnClassArr[status];
+    console.log("status= " + this.status);
+
+    this.butnClass = this.butnClassArr[status];
     this.items = [
       {
         label: '', icon: 'fa-backward', command: () => {
@@ -47,15 +46,10 @@ export class TaskManagerOverviewItemComponent implements OnInit {
     ];
   }
 
-
-
-
-
-
-    
-
-
-
+  @Output() selected = new EventEmitter<any>();
+  onClick() {
+    this.selected.emit({ event: event, checked: this.checked });
+  }
 
   update() {
     //this.msgs = [];

@@ -18,9 +18,10 @@
       "prefix": "",
       "mobile": false,
       "styles": [
+        "../node_modules/quill/dist/quill.core.css", "../node_modules/quill/dist/quill.snow.css",
         "styles.css"
       ],
-      "scripts": [],
+      "scripts": ["../node_modules/quill/dist/quill.js"],
       "environments": {
         "source": "environments/environment.ts",
         "dev": "environments/environment.ts",

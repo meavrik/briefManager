@@ -9,6 +9,16 @@
     font-family: 'Varela Round', sans-serif;
 }
 
+
+.fixedElement {
+    background-color: #c0c0c0;
+    position:fixed;
+    top:0;
+    width:100%;
+    z-index:100;
+}
+
+
 md-sidenav-layout.m2app-dark {
     background: black;
     direction: rtl;
@@ -17,8 +27,6 @@ md-sidenav-layout.m2app-dark {
 md-input {
     direction: rtl;
 }
-
-
 
 md-toolbar {
     direction: rtl;

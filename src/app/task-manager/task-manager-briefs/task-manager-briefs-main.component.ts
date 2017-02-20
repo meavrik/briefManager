@@ -7,20 +7,17 @@ import { Component, OnInit } from '@angular/core';
 @Component({
     selector: 'task-manager-briefs-main',
     template: `
-    
-    
     <p-fieldset #fieldset legend="צור בריף חדש" toggleable="true" [collapsed]="true" (onAfterToggle)="onAfterToggle()">
-         <task-manager-briefs-new (save)="save($event.title)"></task-manager-briefs-new>
+         <task-manager-briefs-new (save)="save($event.brief)"></task-manager-briefs-new>
     </p-fieldset>
     
     <p-dataTable [value]="this.briefService.collection" [resizableColumns]="true" [reorderableColumns]="true" [paginator]="true" [rows]="10">
-        <p-header>
+        <p-header>רשימת בריפים
+        <br/>
          <p-autoComplete id="search" [(ngModel)]="brief" [suggestions]="filteredBriefsSingle" (completeMethod)="filterBriefSingle($event)" placeholder="חפש בריף" field="title"></p-autoComplete>
-         <br/>
-        רשימת בריפים
        
         </p-header>
-        <p-column *ngFor="let item of cols" [field]="item.field" [header]="item.header"></p-column>
+        <p-column *ngFor="let item of cols" [field]="item.field" [header]="item.header" [sortable]="true"></p-column>
     </p-dataTable>
   `,
     styles: [
@@ -32,32 +29,30 @@ import { Component, OnInit } from '@angular/core';
 export class TaskManagerBriefsMainComponent implements OnInit {
 
     brief: Brief;
-    cols: any[]=[];
-    suggestions:string[]=["sdasdas","dddddd"];
-    filteredBriefsSingle:Brief[];
-    countries:Brief[];
+    cols: any[] = [];
+    filteredBriefsSingle: Brief[];
+    briefs: Brief[];
 
     filterBriefSingle(event) {
-        let query = event.query;        
+        let query = event.query;
         this.briefService.getbriefs().subscribe(briefs => {
-            this.filteredBriefsSingle = this.filterCountry(query, briefs);
+            this.filteredBriefsSingle = this.filterbrief(query, briefs);
         });
     }
-    
-    filterCountry(query, countries: Brief[]):Brief[] {
+
+    filterbrief(query, briefs: Brief[]): Brief[] {
         //in a real application, make a request to a remote url with the query and return filtered results, for demo we filter at client side
-        let filtered : Brief[] = [];
-        for(let i = 0; i < countries.length; i++) {
-            let country = countries[i];
-            if(country.title.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-                filtered.push(country);
+        /*let filtered : Brief[] = [];
+        for(let i = 0; i < briefs.length; i++) {
+            let brief = briefs[i];
+            if(brief.title.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+                filtered.push(brief);
             }
-        }
-        return filtered;
+        }*/
+
+        return briefs.filter(item => item.title.toLowerCase().indexOf(query.toLowerCase()) == 0);
     }
 
-
-    
     constructor(private briefService: BriefService) { }
 
     ngOnInit() {
@@ -68,19 +63,17 @@ export class TaskManagerBriefsMainComponent implements OnInit {
         this.cols = [
             { field: 'index', header: 'מספר' },
             { field: 'title', header: 'שם' },
-            { field: 'description', header: 'תיאור' },
+            { field: 'assignto', header: 'שיוך' },
             { field: 'status', header: 'סטטוס' },
             { field: 'due', header: 'יעד' },
             { field: 'priority', header: 'priority' },
         ];
     }
 
-    save(title, description) {
-        
-        var newBrief: Brief = new Brief(this.briefService.collection.length, title, description);
+    save(newBrief: Brief) {
+        newBrief.index = this.briefService.collection.length;
         this.briefService.addBrief(newBrief).subscribe(brief => {
             this.briefService.collection = this.immutablePush(this.briefService.collection, brief);
-            //this.suggestions=this.briefService.collection.map((item)=>item.title);
         });
     }
 

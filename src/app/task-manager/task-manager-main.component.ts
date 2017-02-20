@@ -12,7 +12,8 @@ import { MdDialog } from '@angular/material';
     
         <div class="app-content">
             <task-manager-menu></task-manager-menu>
-             <p-tabView orientation="right" >
+            
+             <p-tabView orientation="top">
             <div class="app-content-inner">
                 <p-tabPanel header="מבט כללי" rightIcon="fa-search" >
                     <task-manager-overview-main></task-manager-overview-main>
@@ -21,6 +22,11 @@ import { MdDialog } from '@angular/material';
                 <p-tabPanel header="ניהול בריפים" rightIcon="fa-book" >
                     <task-manager-briefs-main></task-manager-briefs-main>
                 </p-tabPanel>
+
+                <p-tabPanel header="ניהול פרוייקים" rightIcon="fa-book" >
+                    <task-manager-projects-main></task-manager-projects-main>
+                </p-tabPanel>
+
                 <p-tabPanel header="לקוחות" rightIcon="fa-bookmark-o">
                     <task-manager-clients-main></task-manager-clients-main>
                     

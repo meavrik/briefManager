@@ -5,7 +5,7 @@ import { TaskManagerOverviewMainComponent } from './task-manager-overview-main.c
 import { FormsModule } from '@angular/forms';
 import { AppConfigService } from './../../app-config.service';
 import { UsersService } from './../task-manager-users/users.service';
-import {DragDropModule, MenubarModule,  ButtonModule,   SlideMenuModule,    MessagesModule,    GrowlModule,    SplitButtonModule,    DataTableModule,    ChipsModule,    SharedModule} from 'primeng/primeng';
+import {ToggleButtonModule, DragDropModule,  MenubarModule,   ButtonModule,    SlideMenuModule,     MessagesModule,     GrowlModule,     SplitButtonModule,     DataTableModule,     ChipsModule,     SharedModule} from 'primeng/primeng';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MenuModule, MenuItem } from 'primeng/primeng';
@@ -26,6 +26,7 @@ import { TaskManagerOverviewItemComponent } from './task-manager-overview-item.c
     ButtonModule,
     MenubarModule,
     DragDropModule,
+    ToggleButtonModule,
     MaterialModule.forRoot(),
   ],
   declarations: [TaskManagerOverviewMainComponent, TaskManagerOverviewItemComponent],
