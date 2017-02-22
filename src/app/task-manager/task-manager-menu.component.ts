@@ -3,7 +3,9 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'task-manager-menu',
   template: `
+      
     <md-card>
+        
         <button md-raised-button color="primary">צור בריף חדש
             <i class="material-icons">note_add</i>
         </button>
@@ -19,9 +21,13 @@ import { Component, OnInit } from '@angular/core';
         <button md-raised-button color="primary">רשימת בריפים
             <i class="material-icons">pageview</i>
         </button>
+
+        
+
     </md-card>
   `,
-  styles: []
+  styles: [
+      ]
 })
 export class TaskManagerMenuComponent implements OnInit {
 

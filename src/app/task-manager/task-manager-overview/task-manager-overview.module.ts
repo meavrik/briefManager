@@ -1,15 +1,34 @@
-import {MaterialModule} from '@angular/material';
+import { TaskManagerBriefsModule } from '../task-manager-briefs/task-manager-briefs.module';
+import { TaskManagerBriefsNewComponent } from '../task-manager-briefs/task-manager-briefs-new.component';
+import { MaterialModule } from '@angular/material';
 
 import { BriefService } from '../task-manager-briefs/brief.service';
 import { TaskManagerOverviewMainComponent } from './task-manager-overview-main.component';
 import { FormsModule } from '@angular/forms';
 import { AppConfigService } from './../../app-config.service';
 import { UsersService } from './../task-manager-users/users.service';
-import {ToggleButtonModule, DragDropModule,  MenubarModule,   ButtonModule,    SlideMenuModule,     MessagesModule,     GrowlModule,     SplitButtonModule,     DataTableModule,     ChipsModule,     SharedModule} from 'primeng/primeng';
+import {
+  AccordionModule,
+  FieldsetModule,
+  DialogModule,
+  TooltipModule,
+  ToggleButtonModule,
+  DragDropModule,
+  MenubarModule,
+  ButtonModule,
+  SlideMenuModule,
+  MessagesModule,
+  GrowlModule,
+  SplitButtonModule,
+  DataTableModule,
+  ChipsModule,
+  SharedModule
+} from 'primeng/primeng';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MenuModule, MenuItem } from 'primeng/primeng';
 import { TaskManagerOverviewItemComponent } from './task-manager-overview-item.component';
+import { TaskManagerItemDialogComponent } from './task-manager-item-dialog.component';
 
 @NgModule({
   imports: [
@@ -27,9 +46,18 @@ import { TaskManagerOverviewItemComponent } from './task-manager-overview-item.c
     MenubarModule,
     DragDropModule,
     ToggleButtonModule,
+    TooltipModule,
+    FieldsetModule,
+    DialogModule,
+    TaskManagerBriefsModule,
+    AccordionModule,
     MaterialModule.forRoot(),
   ],
-  declarations: [TaskManagerOverviewMainComponent, TaskManagerOverviewItemComponent],
+
+  declarations: [TaskManagerOverviewMainComponent,
+    TaskManagerOverviewItemComponent,
+    TaskManagerItemDialogComponent,
+  ],
   exports: [TaskManagerOverviewMainComponent],
   providers: [BriefService],
 

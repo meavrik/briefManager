@@ -1,6 +1,11 @@
+
 export class User {
-    id:number;
-    name:string;
-    label:string;
-    value:string;
+    userId: number;
+    name: string;
+    avatarId: number;
+
+    constructor(name: string, avatarId: number) {
+        this.name = name;
+        this.avatarId = avatarId;
+    }
 }

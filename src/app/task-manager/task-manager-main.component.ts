@@ -1,19 +1,17 @@
-
-import { TasksService } from './../tasks.service';
+import { Store } from './store.service';
 import { Component, OnInit } from '@angular/core';
-import { MdDialog } from '@angular/material';
 
 @Component({
     selector: 'task-manager-main',
     template: `
+    <task-manager-toolbar [isDarkTheme]="isDarkTheme"></task-manager-toolbar>
     <md-sidenav-layout [class.m2app-dark]="isDarkTheme">
-        <task-manager-sidenav></task-manager-sidenav>
-        <task-manager-toolbar [isDarkTheme]="isDarkTheme"></task-manager-toolbar>
     
         <div class="app-content">
+            <task-manager-sidenav></task-manager-sidenav>
             <task-manager-menu></task-manager-menu>
-            
-             <p-tabView orientation="top">
+
+             <p-tabView  orientation="right">
             <div class="app-content-inner">
                 <p-tabPanel header="מבט כללי" rightIcon="fa-search" >
                     <task-manager-overview-main></task-manager-overview-main>
@@ -42,18 +40,19 @@ import { MdDialog } from '@angular/material';
                
             </div>
              </p-tabView>
+
             <md-card>
                 <p>Last dialog result: {{lastDialogResult}}</p>
                 <button md-raised-button (click)="openDialog()">Comment</button>
             </md-card>
         </div>
-
+        
     </md-sidenav-layout>
-
+    
 <span class="app-action" [class.m2app-dark]="isDarkTheme">
   <button md-fab><md-icon>add</md-icon></button>
 </span>
-  `,
+  `,styles:[]
 })
 
 
@@ -62,26 +61,11 @@ export class TaskManagerMainComponent {
     isDarkTheme: boolean = false;
     lastDialogResult: string;
 
-    _tasks;
-    errorMessage;
-
-    constructor(private _dialog: MdDialog, private _tasksService: TasksService) {
-
-        //this.tickets = _tasksService.tickets;
-        this.getTasks();
-    }
-
-    getTasks()
-    {
-        this._tasksService.getTasks().subscribe(_tasks => this._tasks = _tasks, error => this.errorMessage = <any>error);
+    constructor(private store:Store) {
+        this.store.getAllBriefs();
     }
 
     openDialog() {
-        
-        /*let dialogRef = this._dialog.open(DialogContent);
 
-        dialogRef.afterClosed().subscribe(result => {
-            this.lastDialogResult = result;
-        })*/
     }
 }

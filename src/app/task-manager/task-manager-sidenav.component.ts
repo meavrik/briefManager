@@ -1,9 +1,10 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { User } from './task-manager-users/user.model';
+import { Component, OnInit, Output, Input } from '@angular/core';
 
 @Component({
   selector: 'task-manager-sidenav',
   template: `
-    <md-sidenav #sidenav mode="side" class="md-sidenav-left">
+    <md-sidenav #sidenav mode="push" align="end" [opened]="false" class="md-sidenav-left">
         <md-card style="text-align: center">
             <h3>שלום דנה</h3>
             <p>מעצבת</p>
@@ -19,7 +20,8 @@ import { Component, OnInit, Output } from '@angular/core';
 })
 export class TaskManagerSidenavComponent implements OnInit {
 
-  @Output() sidenav;
+  @Output() sidenav;  
+  @Input() user:User;
 
   constructor()
   { 
@@ -27,7 +29,7 @@ export class TaskManagerSidenavComponent implements OnInit {
   }
 
   ngOnInit() {
-      this.sidenav;
+      
   }
 
 }

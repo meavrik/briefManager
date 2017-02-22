@@ -1,13 +1,13 @@
+import { ProjectsService } from '../task-manager-projects/projects.service';
 import { MaterialModule } from '@angular/material';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AppConfigService } from './../../app-config.service';
 import { UsersService } from './../task-manager-users/users.service';
 import { BriefService } from './brief.service';
-import {EditorModule, SpinnerModule,  ChipsModule,   FieldsetModule,    CalendarModule,     SliderModule,     MultiSelectModule,     InputTextareaModule,     DropdownModule,     AutoCompleteModule,     DataTableModule,     SharedModule} from 'primeng/primeng';
+import { ButtonModule, DialogModule, EditorModule, SpinnerModule, ChipsModule, FieldsetModule, CalendarModule, SliderModule, MultiSelectModule, InputTextareaModule, DropdownModule, AutoCompleteModule, DataTableModule, SharedModule } from 'primeng/primeng';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TaskManagerBriefsMainComponent } from './task-manager-briefs-main.component';
-import { ButtonModule, DialogModule } from 'primeng/primeng';
 import { TaskManagerBriefsNewComponent } from './task-manager-briefs-new.component';
 
 @NgModule({
@@ -32,7 +32,7 @@ import { TaskManagerBriefsNewComponent } from './task-manager-briefs-new.compone
     MaterialModule.forRoot(),
   ],
   declarations: [TaskManagerBriefsMainComponent, TaskManagerBriefsNewComponent],
-  exports: [TaskManagerBriefsMainComponent],
-  providers: [BriefService, UsersService, AppConfigService]
+  exports: [TaskManagerBriefsMainComponent, TaskManagerBriefsNewComponent],
+  providers: [BriefService, UsersService, ProjectsService]
 })
 export class TaskManagerBriefsModule { }

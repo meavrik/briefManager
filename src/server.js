@@ -13,19 +13,20 @@ mongo.Promise = global.Promise;
 mongo.connect(url)
 
 var userSchema = new Schema({
-    index: Number,
+    userId: Number,
     name: String,
+    avatarId : Number,
 }, { collection: 'users' })
 
 var taskSchema = new Schema({
     index: Number,
     title: String,
     description: String,
-    status: String,
+    status: Number,
     created: Number,
     due: Number,
     formats: [],
-    assignto: String,
+    assignto: Number,
     priority: Number,
     open: Boolean,
     category: String
@@ -43,9 +44,21 @@ var clientSchema = new Schema({
     relatedTasks: []
 }, { collection: 'clients' })
 
+var projectSchema = new Schema({
+    index: Number,
+    title: String,
+    description: String,
+    projectId:Number,
+    clientId:Number,
+    relatedTasks: []
+}, { collection: 'projects' })
+
 let BriefTask = mongo.model('BriefTask', taskSchema, 'tasks');
 let Client = mongo.model('Client', clientSchema, 'clients');
 let User = mongo.model('User', userSchema, 'users');
+let Project = mongo.model('Project', projectSchema, 'projects');
+
+
 
 let app = express();
 
@@ -62,10 +75,9 @@ app.get('/getclients/', function (req, res) {
     });
 });
 
-app.route('/tasks')
+app.route('/tasks/')
     .get(function (req, res) {
         console.log("get the tasks list!");
-
         BriefTask.find({}, {}, { limit: 100 }, function (err, doc) {
             assert.equal(null, err);
             res.send(doc);
@@ -73,57 +85,65 @@ app.route('/tasks')
     })
     .post(function (req, res, next) {
         var task = new BriefTask(req.body);
-        //task.save();
         task.save(function (err, task) {
             if (err) { return next(err); }
             res.json(task);
         });
-    });
-
-app.post('/updatetask', function (req, res, next) {
-   
-    var id =req.body.id;
-
-     console.log("updatetask "+id);
-
-    BriefTask.findByIdAndUpdate(id, {$set:req.body}, function(err, result){
+    })
+    .put(function (req, res) {
+        BriefTask.findByIdAndUpdate(req.body._id,req.body, function(err, result){
         if(err){
             console.log(err);
         }
-        console.log("RESULT: " + result);
+        res.send(result);
+        });
     })
 
-    /*var task = new BriefTask(req.body);
-    //task.save();
-    task.update(function (err, task) {
-        if (err) { return next(err); }
-        //res.json(task);
-    });*/
-});
+
+
+app.route('/users/')
+    .get(function (req, res) {
+        console.log("get the users list!");
+
+        User.find({}, {}, { limit: 100 }, function (err, doc) {
+            assert.equal(null, err);
+            res.send(doc);
+        });
+    })
+    .post(function (req, res, next) {
+        var user = new User(req.body);
+        user.save(function (err, user) {
+            if (err) { return next(err); }
+            res.json(user);
+        });
+    })
+    .put(function (req, res) {
+        User.findByIdAndUpdate(req.body._id,req.body, function(err, result){
+        if(err){
+            console.log(err);
+        }
+        //console.log("RESULT: " + result);
+        //res.send('Done')
+        });
+    })
 
 
 
 
-app.get('/users', function (req, res) {
-    console.log("get the users list!");
-
-    User.find({}, {}, { limit: 100 }, function (err, doc) {
-        assert.equal(null, err);
-        res.send(doc);
+app.route('/projects')
+    .get(function (req, res) {
+        Project.find({}, {}, { limit: 100 }, function (err, doc) {
+            assert.equal(null, err);
+            res.send(doc);
+        });
+    })
+    .post(function (req, res, next) {
+        var project = new Project(req.body);
+        project.save(function (err, project) {
+            if (err) { return next(err); }
+            res.json(project);
+        });
     });
-});
-
-app.post('/users', function (req, res, next) {
-    var user = new User(req.body);
-    //task.save();
-    user.save(function (err, user) {
-        if (err) { return next(err); }
-        res.json(user);
-    });
-
-    //res.redirect('/')
-});
-
 
 
 
