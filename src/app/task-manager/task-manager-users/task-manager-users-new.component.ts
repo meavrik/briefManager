@@ -1,7 +1,6 @@
 import { SelectItem } from 'primeng/primeng';
 import { User } from './user.model';
-import { UsersService } from './users.service';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import {Validators, FormGroup,  FormBuilder} from '@angular/forms';
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 
 @Component({
@@ -18,7 +17,7 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
             </template>
         </p-dropdown>
         
-        <button pButton type="button" (click)="onClick()" label="שמור" [style]="{'text-align':'left'}"></button>
+        <button pButton type="button" [disabled]="!dataForm.valid" (click)="onClick()" label="שמור" [style]="{'text-align':'left'}"></button>
     </form>
   `,
   styles: []
@@ -27,7 +26,8 @@ export class TaskManagerUsersNewComponent implements OnInit {
 
   dataForm: FormGroup;
   name: string;
-  selectedAvatar: number;
+  selectedAvatar: number = 1;
+
   avatars: SelectItem[] = [
     { label: "R2D2", value: 1 },
     { label: "Chowee", value: 2 },
@@ -38,26 +38,30 @@ export class TaskManagerUsersNewComponent implements OnInit {
     { label: "Tropper", value: 7 },
     { label: "Vader", value: 8 },
     { label: "Vader", value: 9 },
-    ]
+  ]
   @Output() save = new EventEmitter<any>();
 
   constructor(
-    private formBuilder: FormBuilder,
-    private usersService: UsersService, ) {
+    private formBuilder: FormBuilder) {
 
   }
 
   ngOnInit() {
     this.dataForm = this.formBuilder.group({
-      name: '',
+      name: ['', [Validators.required]],
       avatar: '',
       type: '',
     });
   }
 
   onClick() {
-    let newUser: User = new User(this.name,this.selectedAvatar);
-    this.save.emit({ event: event, user: newUser });
+    if(this.dataForm.valid)
+    {
+      let newUser: User = new User(this.name, this.selectedAvatar);
+      this.save.emit({ event: event, user: newUser });
+      this.name="";
+      this.selectedAvatar=null;
+    }
   }
 
 }

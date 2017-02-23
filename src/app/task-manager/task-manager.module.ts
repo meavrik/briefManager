@@ -1,5 +1,5 @@
+import {AppConfigService} from '../app-config.service';
 import { Store } from './store.service';
-import { UsersService } from './task-manager-users/users.service';
 import { UserService } from './user.service';
 import { TaskManagerProjectsModule } from './task-manager-projects/task-manager-projects.module';
 import { TaskManagerOverviewModule } from './task-manager-overview/task-manager-overview.module';
@@ -28,7 +28,7 @@ import { TabViewModule } from 'primeng/primeng';
     TaskManagerOverviewModule,
     TaskManagerProjectsModule
   ],
-  providers: [UserService, Store],
+  providers: [UserService, Store,AppConfigService],
   declarations: [
     TaskManagerMainComponent,
     TaskManagerMenuComponent,

@@ -58,24 +58,36 @@ let Client = mongo.model('Client', clientSchema, 'clients');
 let User = mongo.model('User', userSchema, 'users');
 let Project = mongo.model('Project', projectSchema, 'projects');
 
-
-
 let app = express();
-
 app.use(bodyParser.json());   // This is the type of body we're interested in
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
-app.get('/getclients/', function (req, res) {
-    console.log("get the clients list!");
+app.route('/clients/')
+    .get(function (req, res) {
+        console.log("get the client list!");
+        Client.find({}, {}, { limit: 100 }, function (err, doc) {
+            assert.equal(null, err);
+            res.send(doc);
+        });
+    })
+    .post(function (req, res, next) {
+        var client = new Client(req.body);
+        client.save(function (err, client) {
+            if (err) { return next(err); }
+            res.json(client);
+        });
+    })
+    .put(function (req, res) {
+        Client.findByIdAndUpdate(req.body._id,req.body, function(err, result){
+        if(err){
+            console.log(err);
+        }
+        res.send(result);
+        });
+    })
 
-    Client.find({}, {}, { limit: 100 }, function (err, doc) {
-        assert.equal(null, err);
-        res.send(doc);
-    });
-});
-
-app.route('/tasks/')
+app.route('/briefs/')
     .get(function (req, res) {
         console.log("get the tasks list!");
         BriefTask.find({}, {}, { limit: 100 }, function (err, doc) {
@@ -122,8 +134,7 @@ app.route('/users/')
         if(err){
             console.log(err);
         }
-        //console.log("RESULT: " + result);
-        //res.send('Done')
+        res.send(result);
         });
     })
 

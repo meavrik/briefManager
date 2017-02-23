@@ -2,16 +2,14 @@ import { Store } from './../store.service';
 import { Brief } from './../task-manager-briefs/brief.model';
 import { Router } from '@angular/router';
 import { MenuItem, Message } from 'primeng/primeng';
-import { BriefService } from '../task-manager-briefs/brief.service';
 import { ElementRef, Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'task-manager-overview-main',
   template: `
   <p-fieldset #fieldset legend="צור בריף חדש" toggleable="true" [collapsed]="true">
-      <task-manager-briefs-new ></task-manager-briefs-new>
+      <task-manager-briefs-new (save)="save($event.brief)"></task-manager-briefs-new>
   </p-fieldset>
-
 
   <task-manager-item-dialog *ngIf="selectedBrief" [brief]="selectedBrief"></task-manager-item-dialog>
 
@@ -56,7 +54,7 @@ export class TaskManagerOverviewMainComponent implements OnInit {
   draggedBrief: Brief;
   briefs: Brief[];
 
-  constructor(private briefService: BriefService, private store: Store, router: Router) {
+  constructor(private store: Store, router: Router) {
 
   }
 
@@ -95,28 +93,17 @@ export class TaskManagerOverviewMainComponent implements OnInit {
       { field: 'status', header: 'מאושר' },
     ];
 
-    this.briefs = this.store.briefs.subscribe(briefs => { this.briefs = briefs; this.reorder() });
-
-    /*this.briefService.getItems().subscribe(briefs => {
-
-      this.briefs = briefs;
-      this.reorder()
-    })*/
-  }
-
-
-  save(newBrief: Brief) {
-    newBrief.index = this.briefService.collection.length;
-    this.briefService.addItem(newBrief).subscribe(brief => {
-      this.briefService.collection = [...this.briefService.collection, brief];
+    this.store.briefs.subscribe(briefs => { 
+      this.briefs = briefs; 
+      this.briefsStatusArr = this.cols.map(a => []);
+        briefs.forEach(brief => {
+        this.briefsStatusArr[brief.status].push(brief);
+        })
     });
   }
 
-  reorder() {
-    this.briefsStatusArr = this.cols.map(a => []);
-    this.briefs.forEach(brief => {
-      this.briefsStatusArr[brief.status].push(brief);
-    })
+  save(newBrief: Brief) {
+    this.store.addNewBrief(newBrief);
   }
 
   dragStart(event, brief: Brief) {
@@ -137,7 +124,7 @@ export class TaskManagerOverviewMainComponent implements OnInit {
       if (this.draggedBrief && this.draggedBrief.status != element.cellIndex) {
         this.draggedBrief.status = element.cellIndex;
 
-        this.briefService.update(this.draggedBrief).subscribe(result => this.reorder())
+        this.store.updateBrief(this.draggedBrief);
       }
     }
   }

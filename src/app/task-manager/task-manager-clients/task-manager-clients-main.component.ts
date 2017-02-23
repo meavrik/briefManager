@@ -1,3 +1,4 @@
+import { Store } from './../store.service';
 import { ClientService } from './client.service';
 import { Client } from './Client';
 import { Component, OnInit } from '@angular/core';
@@ -22,11 +23,11 @@ export class TaskManagerClientsMainComponent implements OnInit {
 
     clients: Client[];
     selectedClient: Client;
-
-    constructor(private clientsService: ClientService) { }
+    
+    constructor(private store: Store) { }
 
     ngOnInit() {
-        this.clientsService.getClients().subscribe(clients => this.clients = clients);
+        this.store.clients.subscribe(clients => this.clients = [...clients]);
     }
 
     onClick(index) {

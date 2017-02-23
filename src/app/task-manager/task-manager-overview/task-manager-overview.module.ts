@@ -1,12 +1,8 @@
 import { TaskManagerBriefsModule } from '../task-manager-briefs/task-manager-briefs.module';
 import { TaskManagerBriefsNewComponent } from '../task-manager-briefs/task-manager-briefs-new.component';
 import { MaterialModule } from '@angular/material';
-
-import { BriefService } from '../task-manager-briefs/brief.service';
 import { TaskManagerOverviewMainComponent } from './task-manager-overview-main.component';
 import { FormsModule } from '@angular/forms';
-import { AppConfigService } from './../../app-config.service';
-import { UsersService } from './../task-manager-users/users.service';
 import {
   AccordionModule,
   FieldsetModule,
@@ -59,7 +55,7 @@ import { TaskManagerItemDialogComponent } from './task-manager-item-dialog.compo
     TaskManagerItemDialogComponent,
   ],
   exports: [TaskManagerOverviewMainComponent],
-  providers: [BriefService],
+  providers: [],
 
 })
 export class TaskManagerOverviewModule { }

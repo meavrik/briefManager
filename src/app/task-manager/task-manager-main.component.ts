@@ -63,6 +63,9 @@ export class TaskManagerMainComponent {
 
     constructor(private store:Store) {
         this.store.getAllBriefs();
+        this.store.getClients();
+        this.store.getProjects();
+        this.store.getUsers();
     }
 
     openDialog() {

@@ -2,7 +2,7 @@ import { Router } from '@angular/router';
 import { Store } from './../store.service';
 import { Brief } from './brief.model';
 import { BriefService } from './brief.service';
-import { Component, OnInit } from '@angular/core';
+import { ElementRef, ViewChild, Component, OnInit } from '@angular/core';
 //import "rxjs";
 
 @Component({
@@ -37,32 +37,27 @@ import { Component, OnInit } from '@angular/core';
     ]
 })
 export class TaskManagerBriefsMainComponent implements OnInit {
-
-    brief: Brief;
+    @ViewChild('fieldset') el: ElementRef;
+    isOpen: boolean = false;
     selectedBrief: Brief;
     cols: any[] = [];
     filteredBriefsSingle: Brief[];
-    briefs: Brief[];
     briefsCollection: Brief[] = [];
 
     filterBriefSingle(event) {
         let query = event.query;
-        /*this.briefService.getItems().subscribe(briefs => {
-            this.filteredBriefsSingle = this.filterbrief(query, briefs);
-        });*/
+        this.store.briefs.subscribe(briefs => {
+            this.filteredBriefsSingle = briefs.filter(item => item.title.toLowerCase().indexOf(query.toLowerCase()) == 0)
+        });
     }
 
-    filterbrief(query, briefs: Brief[]): Brief[] {
+    /*filterbrief(query, briefs: Brief[]): Brief[] {
         return briefs.filter(item => item.title.toLowerCase().indexOf(query.toLowerCase()) == 0);
-    }
+    }*/
 
-    constructor(private briefService: BriefService, private store: Store) { }
+    constructor(private store: Store) { }
 
     ngOnInit() {
-        /*this.briefService.getItems().subscribe(briefs => {
-            this.briefService.collection = briefs
-        });*/
-
         this.cols = [
             { field: 'index', header: 'מספר' },
             { field: 'title', header: 'שם' },
@@ -72,30 +67,14 @@ export class TaskManagerBriefsMainComponent implements OnInit {
             { field: 'priority', header: 'priority' },
         ];
 
-        this.briefs = this.store.briefs.subscribe(briefs => {
-            this.briefs = briefs;
-            this.briefsCollection = [];
-            this.briefs.forEach(item => this.briefsCollection.push(item))
-        });
+        this.store.briefs.subscribe(briefs => this.briefsCollection = [...briefs]);
+
+        console.log("AAAAAA " + this.el);
     }
 
     save(newBrief: Brief) {
-        //newBrief.index = this.store.
-        if (!newBrief) return;
-
-        newBrief.index = this.store.briefsCollection.length;
-        console.log('new brief #'+newBrief.index);
-        
         this.store.addNewBrief(newBrief);
-        /*
-        newBrief.index = this.briefService.collection.length;
-        this.briefService.addItem(newBrief).subscribe(brief => {
-            this.briefService.collection = this.immutablePush(this.briefService.collection, brief);
-        });*/
-    }
-
-    immutablePush(arr, newEntry) {
-        return [...arr, newEntry]
+        this.isOpen = false;
     }
 
 }

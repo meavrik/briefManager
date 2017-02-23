@@ -1,3 +1,4 @@
+import { AppConfigService } from './app-config.service';
 import {RouterModule} from '@angular/router';
 import { TaskManagerModule } from './task-manager/task-manager.module';
 import { BrowserModule } from '@angular/platform-browser';
