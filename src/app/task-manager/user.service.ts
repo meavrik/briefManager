@@ -7,7 +7,7 @@ export class UserService {
   
   userInfo:User;
 
-  constructor(private usersService:UsersService) 
+  constructor() 
   { 
       
   }

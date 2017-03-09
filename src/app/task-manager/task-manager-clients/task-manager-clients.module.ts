@@ -1,8 +1,8 @@
-import { ClientService } from './client.service';
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TaskManagerClientsMainComponent } from './task-manager-clients-main.component';
-import {FieldsetModule, DataTableModule,  SharedModule,  ButtonModule} from 'primeng/primeng';
+import { FieldsetModule, DataTableModule, SharedModule, ButtonModule } from 'primeng/primeng';
 
 
 @NgModule({
@@ -13,7 +13,7 @@ import {FieldsetModule, DataTableModule,  SharedModule,  ButtonModule} from 'pri
     ButtonModule,
     FieldsetModule,
   ],
-  providers: [ClientService],
+  providers: [],
   declarations: [TaskManagerClientsMainComponent],
   exports: [TaskManagerClientsMainComponent]
 })

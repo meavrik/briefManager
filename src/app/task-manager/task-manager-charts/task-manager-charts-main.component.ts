@@ -1,17 +1,23 @@
+import {UIChart} from 'primeng/primeng';
 import { Component, OnInit } from '@angular/core';
-import Chart from 'chart.js';
 
 @Component({
   selector: 'task-manager-charts-main',
   template: `
-    
+    <p-chart #chart type="pie"></p-chart>
   `,
   styles: []
 })
 export class TaskManagerChartsMainComponent {
 
   data: any;
+    
 
+
+update(chart: UIChart) {
+    //this.data = //reload
+    chart.refresh();
+}
   constructor() {
       this.data = {
           labels: ['A','B','C'],
@@ -31,4 +37,5 @@ export class TaskManagerChartsMainComponent {
               }]    
           };
   }
+
 }

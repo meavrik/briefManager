@@ -20,7 +20,7 @@ export class Brief {
         project: string = "",
         assignto: number = 0,
         formats: string[] = [],
-        client: string = "", 
+        client: string = "",
         due: number = 0) {
 
         this.title = title;
@@ -35,4 +35,11 @@ export class Brief {
         this.formats = formats;
         this.client = client;
     }
+
+    get statusName() {
+        const statusArr: string[] = ["פתוח", "בעבודה", "מחכה לאישור", "מאושר"];
+        console.log("aaaaa " + this.status);
+        return statusArr[this.status];
+    }
 }
+

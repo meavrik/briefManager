@@ -1,4 +1,4 @@
-import { UsersService } from './../task-manager-users/users.service';
+
 import { Brief } from './../task-manager-briefs/brief.model';
 import { MenuItem } from 'primeng/primeng';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
@@ -51,7 +51,7 @@ export class TaskManagerOverviewItemComponent implements OnInit {
   butnClass = "ui-button-danger";
   avatar:number;
 
-  constructor(private usersService:UsersService) {
+  constructor() {
       this.avatar = Math.floor(Math.random()*9)+1;
   }
 

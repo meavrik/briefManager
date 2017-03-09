@@ -1,18 +1,13 @@
-import { ProjectsService } from '../task-manager-projects/projects.service';
+import { Brief } from '../task-manager-briefs/brief.model';
+import { Store } from './../store.service';
 import { Client } from './../task-manager-clients/Client';
-import { ClientService } from './../task-manager-clients/client.service';
-import { Brief } from './brief.model';
 import { User } from './../task-manager-users/user.model';
-import { UsersService } from './../task-manager-users/users.service';
-
-import { BriefService } from './brief.service';
-import {FormControl,  Validators,   FormBuilder,    FormGroup} from '@angular/forms';
+import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Input, Component, OnInit, Output, EventEmitter } from '@angular/core';
-import {Message, SelectItem,  MenuItem} from 'primeng/primeng';
 import { Observable } from 'rxjs/Observable';
 
 @Component({
-  selector: 'task-manager-briefs-new',
+  selector: 'new-brief-form',
   template: `
 
       <form [formGroup]="dataForm" (ngSubmit)="onSubmit(userform.value)">
@@ -39,16 +34,15 @@ import { Observable } from 'rxjs/Observable';
   `,
   styles: []
 })
-export class TaskManagerBriefsNewComponent implements OnInit {
+export class NewBriefFormComponent implements OnInit {
   dataForm: FormGroup;
   dropDownStyle = { 'width': '30%', 'margin': '5px' };
 
-  formats: any[];
+  formats: string[] = [];
   users: any[] = [];
   clients: any[] = [];
   projects: any[] = [];
 
-  selectedFormats: string[];
   selectedClient: any;
   selectedUser: number;
   selectedProject: any;
@@ -60,32 +54,23 @@ export class TaskManagerBriefsNewComponent implements OnInit {
   keys: any[];
   description: string;
   title: string;
-  
   submitted: boolean;
-  msgs: Message[] = [];
-  
+
   @Output() save = new EventEmitter<any>();
-  constructor(
-    private formBuilder: FormBuilder,
-    private briefService: BriefService,
-    private usersService: UsersService,
-    private clientService: ClientService,
-    private projectsService: ProjectsService
-  ) {
-    this.usersService.getItems().subscribe(users => {
-      this.users = users;
+  constructor(private store: Store, private formBuilder: FormBuilder) {
+    this.store.users.subscribe(users => {
+      this.users = [...users];
       this.users.forEach(item => { item.label = item.name; item.value = item.userId });
-      this.users.unshift({ label: "משוייך ל" ,value:null})
+      this.users.unshift({ label: "משוייך ל", value: null })
     });
-    this.clientService.getClients().subscribe(client => {
-      this.clients = client;
-      this.clients.forEach(item => { item.label = item.name; item.value = item.name });
+    this.store.clients.subscribe(clients => {
+      this.clients = [...clients];
+      this.clients.forEach(item => { item.label = item.value = item.name });
       this.clients.unshift({ label: "לקוח" })
     });
-
-    this.projectsService.getItems().subscribe(projects => {
-      this.projects = projects;
-      this.projects.forEach(item => { item.label = item.title; item; item.value = item.projectId });
+    this.store.projects.subscribe(projects => {
+      this.projects = [...projects];
+      this.projects.forEach(item => { item.label = item.name; item; item.value = item.projectNumber });
       this.projects.unshift({ label: "פרוייקט" })
     });
   }
@@ -96,20 +81,29 @@ export class TaskManagerBriefsNewComponent implements OnInit {
   }
 
   onClick() {
-    if (this.dataForm.valid){
-      let newBrief: Brief = new Brief(this.title, this.description, this.selectedProject, this.selectedUser)
+    if (this.dataForm.valid) {
+      let newBrief: Brief = new Brief(this.title,
+        this.description,
+        this.selectedProject,
+        this.selectedUser,
+        this.formats,
+        this.selectedClient,
+        this.dueDate.getTime()
+      )
       this.save.emit({ event: event, brief: newBrief });
+      this.title = "";
+      this.selectedClient = null;
+      this.selectedUser = null;
     }
   }
 
   ngOnInit() {
     this.dataForm = this.formBuilder.group({
-      title: ['',[Validators.required]],
+      title: ['', [Validators.required]],
       description: '',
       formats: '',
       client: '',
       dueDate: '',
-      city: "",
       user: "",
       keys: "",
       project: "",
@@ -118,9 +112,7 @@ export class TaskManagerBriefsNewComponent implements OnInit {
   }
 
   onSubmit(value: string) {
-        this.submitted = true;
-        this.msgs = [];
-        this.msgs.push({severity:'info', summary:'Success', detail:'Form Submitted'});
-    }
+    this.submitted = true;
+  }
 
 }

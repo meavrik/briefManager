@@ -21,9 +21,6 @@ import { Component, OnInit } from '@angular/core';
         <button md-raised-button color="primary">רשימת בריפים
             <i class="material-icons">pageview</i>
         </button>
-
-        
-
     </md-card>
   `,
   styles: [

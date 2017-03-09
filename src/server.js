@@ -10,12 +10,12 @@ var Schema = mongo.Schema;
 var bodyParser = require('body-parser');
 
 mongo.Promise = global.Promise;
-mongo.connect(url)
-
+mongo.connect(url);
+//mongo.connect('mongodb://avrik:avrik123@ds161159.mlab.com:61159/briefsdburl',['tasks'])
 var userSchema = new Schema({
     userId: Number,
     name: String,
-    avatarId : Number,
+    avatarId: Number,
 }, { collection: 'users' })
 
 var taskSchema = new Schema({
@@ -33,49 +33,58 @@ var taskSchema = new Schema({
 }, { collection: 'tasks' })
 
 var clientSchema = new Schema({
-    index: Number,
     name: String,
+    clientId: Number,
     description: String,
-    profile: String,
     logoUrl: String,
     siteUrl: String,
-    address: {},
-    contacts: [],
+    contactInfo: {},
     relatedTasks: []
 }, { collection: 'clients' })
 
 var projectSchema = new Schema({
-    index: Number,
-    title: String,
+    projectId: Number,
+    projectNumber: Number,
+    name: String,
     description: String,
-    projectId:Number,
-    clientId:Number,
     relatedTasks: []
 }, { collection: 'projects' })
 
-let BriefTask = mongo.model('BriefTask', taskSchema, 'tasks');
-let Client = mongo.model('Client', clientSchema, 'clients');
-let User = mongo.model('User', userSchema, 'users');
-let Project = mongo.model('Project', projectSchema, 'projects');
-
-
+let BriefTask   = mongo.model('BriefTask', taskSchema, 'tasks');
+let Client      = mongo.model('Client', clientSchema, 'clients');
+let User        = mongo.model('User', userSchema, 'users');
+let Project     = mongo.model('Project', projectSchema, 'projects');
 
 let app = express();
-
 app.use(bodyParser.json());   // This is the type of body we're interested in
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
-app.get('/getclients/', function (req, res) {
-    console.log("get the clients list!");
+app.route('/clients/')
+    .get(function (req, res) {
+        console.log("get the client list!");
+        Client.find({}, {}, { limit: 100 }, function (err, doc) {
+            assert.equal(null, err);
+            res.send(doc);
+        });
+    })
+    .post(function (req, res, next) {
+        var client = new Client(req.body);
+        client.save(function (err, client) {
+            if (err) { return next(err); }
+            res.json(client);
+        });
+    })
+    .put(function (req, res) {
+        Client.findByIdAndUpdate(req.body._id, req.body, function (err, result) {
+            if (err) {
+                console.log(err);
+            }
+            res.send(result);
+        });
+    })
 
-    Client.find({}, {}, { limit: 100 }, function (err, doc) {
-        assert.equal(null, err);
-        res.send(doc);
-    });
-});
-
-app.route('/tasks/')
+app.route('/briefs/')
     .get(function (req, res) {
         console.log("get the tasks list!");
         BriefTask.find({}, {}, { limit: 100 }, function (err, doc) {
@@ -91,15 +100,13 @@ app.route('/tasks/')
         });
     })
     .put(function (req, res) {
-        BriefTask.findByIdAndUpdate(req.body._id,req.body, function(err, result){
-        if(err){
-            console.log(err);
-        }
-        res.send(result);
+        BriefTask.findByIdAndUpdate(req.body._id, req.body, function (err, result) {
+            if (err) {
+                console.log(err);
+            }
+            res.send(result);
         });
     })
-
-
 
 app.route('/users/')
     .get(function (req, res) {
@@ -118,17 +125,13 @@ app.route('/users/')
         });
     })
     .put(function (req, res) {
-        User.findByIdAndUpdate(req.body._id,req.body, function(err, result){
-        if(err){
-            console.log(err);
-        }
-        //console.log("RESULT: " + result);
-        //res.send('Done')
+        User.findByIdAndUpdate(req.body._id, req.body, function (err, result) {
+            if (err) {
+                console.log(err);
+            }
+            res.send(result);
         });
     })
-
-
-
 
 app.route('/projects')
     .get(function (req, res) {

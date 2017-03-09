@@ -2,36 +2,29 @@ import { Store } from './../store.service';
 import { Brief } from './../task-manager-briefs/brief.model';
 import { Router } from '@angular/router';
 import { MenuItem, Message } from 'primeng/primeng';
-import { BriefService } from '../task-manager-briefs/brief.service';
 import { ElementRef, Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'task-manager-overview-main',
   template: `
-  <p-fieldset #fieldset legend="צור בריף חדש" toggleable="true" [collapsed]="true">
-      <task-manager-briefs-new ></task-manager-briefs-new>
-  </p-fieldset>
-
-
   <task-manager-item-dialog *ngIf="selectedBrief" [brief]="selectedBrief"></task-manager-item-dialog>
 
    <p-growl [value]="msgs"></p-growl>
-    <p-menubar [model]="items" *ngIf="briefPicked"></p-menubar>
-    
-    <p-dataTable [value]="status" pDroppable="briefs" (onDrop)="drop($event)">
+    <p-dataTable [value]="status" pDroppable="briefs" (onDrop)="drop($event)"  [style]="{'flex-align':'start'}">
         <p-header>מבט כללי
-
         </p-header>
             
         <p-column *ngFor="let item of cols let i = index;" [field]="item.field" [header]="item.header"
+          [style]="{'background-color':'red','align-items':'flex-start'}"
           > 
           <template let-item="rowData" pTemplate="item">
            <task-manager-overview-item *ngFor="let brief of briefsStatusArr[i]" [brief]="brief"
-           pDraggable="briefs" (onDragStart)="dragStart($event,brief)" (onDragEnd)="dragEnd($event,i)"
-           [ngClass]="{'ui-state-highlight':draggedBrief}"
-           (selected)="briefSelected($event.checked)">
+             pDraggable="briefs" 
+             (onDragStart)="dragStart($event,brief)" 
+             (onDragEnd)="dragEnd($event,i)"
+             [ngClass]="{'ui-state-highlight':draggedBrief}"
+             (selected)="briefSelected($event.checked)">
            </task-manager-overview-item>
-           
           </template>
         </p-column>
     </p-dataTable>
@@ -41,52 +34,22 @@ import { ElementRef, Component, OnInit } from '@angular/core';
 export class TaskManagerOverviewMainComponent implements OnInit {
 
   briefSelected(checked: boolean, brief: Brief) {
-    this.briefPicked = checked;
     this.selectedBrief = brief;
   }
 
   selectedBrief: Brief;
-  display: boolean = false;
-  briefPicked: boolean = false;
   cols: any[];
   status = [{}]
   briefsStatusArr: any[] = [];
   msgs: Message[] = [];
-  items: MenuItem[] = [];
   draggedBrief: Brief;
   briefs: Brief[];
-
-  constructor(private briefService: BriefService, private store: Store, router: Router) {
+  
+  constructor(private store: Store, router: Router) {
 
   }
 
   ngOnInit() {
-    this.items = [
-      /*{
-        label: 'קדימה', icon: 'fa-refresh', command: () => {
-          this.update();
-        }
-      },
-      {
-        label: 'אחורה', icon: 'fa-close', command: () => {
-          this.delete();
-        }
-      },*/
-      { label: 'ערוך', icon: 'fa-paint-brush' },
-      {
-        label: 'סטטוס', icon: 'fa-edit',
-        items: [
-          { label: 'פתוח', icon: 'fa-link' },
-          { label: 'בעבודה', icon: 'fa-link' },
-          { label: 'מחכה לאישור', icon: 'fa-link' },
-          { label: 'מאושר', icon: 'fa-link' },
-          { label: 'סגור', icon: 'fa-link' },
-        ]
-      },
-
-      { label: 'מחק', icon: 'delete' },
-      { label: 'סיים משימה', icon: 'fa-close' }
-    ];
 
     this.cols = [
       { field: 'open', header: 'פתוח' },
@@ -95,28 +58,16 @@ export class TaskManagerOverviewMainComponent implements OnInit {
       { field: 'status', header: 'מאושר' },
     ];
 
-    this.briefs = this.store.briefs.subscribe(briefs => { this.briefs = briefs; this.reorder() });
+    this.store.briefs.subscribe(briefs => {
+      this.briefsStatusArr = this.cols.map(a => []);
+      this.briefs = [...briefs];
+      this.briefs.forEach(brief => {
+        if (!isNaN(brief.status)) {
+          this.briefsStatusArr[brief.status].push(brief);
+        }
 
-    /*this.briefService.getItems().subscribe(briefs => {
-
-      this.briefs = briefs;
-      this.reorder()
-    })*/
-  }
-
-
-  save(newBrief: Brief) {
-    newBrief.index = this.briefService.collection.length;
-    this.briefService.addItem(newBrief).subscribe(brief => {
-      this.briefService.collection = [...this.briefService.collection, brief];
+      })
     });
-  }
-
-  reorder() {
-    this.briefsStatusArr = this.cols.map(a => []);
-    this.briefs.forEach(brief => {
-      this.briefsStatusArr[brief.status].push(brief);
-    })
   }
 
   dragStart(event, brief: Brief) {
@@ -137,13 +88,16 @@ export class TaskManagerOverviewMainComponent implements OnInit {
       if (this.draggedBrief && this.draggedBrief.status != element.cellIndex) {
         this.draggedBrief.status = element.cellIndex;
 
-        this.briefService.update(this.draggedBrief).subscribe(result => this.reorder())
+        this.store.updateBrief(this.draggedBrief);
+        this.store.updateBrief(this.draggedBrief);
+
+        this.msgs.push({severity:'success', summary:'סטטוס עודכן בהצלחה', detail:`${this.draggedBrief.title} עודכן לסטטוס ${this.draggedBrief.statusName}`});
       }
     }
   }
 
   dragEnd(event) {
-    this.draggedBrief = null;
+    //this.draggedBrief = null;
   }
 
 }

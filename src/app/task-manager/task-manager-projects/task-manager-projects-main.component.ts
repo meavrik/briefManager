@@ -1,15 +1,12 @@
+import { Store } from './../store.service';
 import { Project } from './project.model';
-import { ProjectsService } from './projects.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'task-manager-projects-main',
   template: `
-    <p-fieldset #fieldset legend="הוסף פרוייקט חדש" toggleable="true" [collapsed]="true" (onAfterToggle)="onAfterToggle()">
-        
-    </p-fieldset>
-    
-    <p-dataTable [value]="this.projectService.collection" [resizableColumns]="true" [reorderableColumns]="true" [paginator]="true" [rows]="10" selectionMode="single" [(selection)]="selectedProject">
+
+    <p-dataTable [value]="projects" [resizableColumns]="true" [reorderableColumns]="true" [paginator]="true" [rows]="10" selectionMode="single" [(selection)]="selectedProject">
         <p-header>רשימת פרוייקטים
         <br/>
 
@@ -20,22 +17,23 @@ import { Component, OnInit } from '@angular/core';
   styles: []
 })
 export class TaskManagerProjectsMainComponent implements OnInit {
-  projects
-  cols:any[];
-  selectedProject:Project;
+  projects: any[] = [];
+  cols: any[];
+  selectedProject: Project;
 
-  constructor(private projectService:ProjectsService) { }
-  
+  constructor(private store: Store) { }
+
   ngOnInit() {
-    this.projectService.getItems().subscribe(projects => {
+    /*this.projectService.getItems().subscribe(projects => {
             this.projectService.collection = projects
-        });
+        });*/
+    this.store.projects.subscribe(projects => this.projects = projects.filter(a => a._id));
 
-        this.cols = [
-            { field: 'index', header: 'מספר' },
-            { field: 'title', header: 'שם' },
-            { field: 'projectId', header: '#' }
-        ];
+    this.cols = [
+      { field: 'projectId', header: '#' },
+      { field: 'name', header: 'שם' },
+      { field: 'projectNumber', header: 'מספר' }
+    ];
   }
 
 }

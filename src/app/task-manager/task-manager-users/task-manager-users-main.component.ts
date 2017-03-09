@@ -1,4 +1,4 @@
-import { UsersService } from './users.service';
+import { Store } from './../store.service';
 import { User } from './user.model';
 import { Component, OnInit } from '@angular/core';
 import { Header ,Footer} from 'primeng/primeng';
@@ -7,11 +7,7 @@ import { Header ,Footer} from 'primeng/primeng';
   selector: 'task-manager-users-main',
   template: `
 
-  <p-fieldset #fieldset legend="משתמש חדש" toggleable="true" [collapsed]="true">
-        <task-manager-users-new (save)="save($event.user)"></task-manager-users-new>
-  </p-fieldset>
-
-  <p-dataTable [value]="this.userService.collection" selectionMode="single" [(selection)]="selectedUser">
+  <p-dataTable [value]="users" selectionMode="single" [(selection)]="selectedUser">
       <p-column styleClass="col-button" header="כינוי" [style]="{'width':'60px'}">
           <template let-user="rowData" pTemplate="body">
              <img src="./resources/starwars/avatar_{{user.avatarId}}.jpeg" style="height:40px"/>
@@ -19,9 +15,7 @@ import { Header ,Footer} from 'primeng/primeng';
       </p-column>
 
     <p-column field="userId" header="#" [style]="{'width':'40px'}"></p-column>
-    <p-column field="name" header="שם" rowspan="4"></p-column>
-
-
+    <p-column field="name" header="שם"></p-column>
   </p-dataTable>
   `,
   styles: []
@@ -29,23 +23,25 @@ import { Header ,Footer} from 'primeng/primeng';
 
 export class TaskManagerUsersMainComponent implements OnInit {
 
-    //users: User[];
-    //cols: any[];
+    users: User[]=[];
     selectedUser:User;
 
-    constructor(private userService: UsersService) { }
+    constructor(private store: Store) { }
 
     ngOnInit() {
-        this.userService.getItems().subscribe(users => this.userService.collection = users);
+        this.store.users.subscribe(users => {
+            this.users= users.filter(item=>item.name);
+            console.log("users update!!!!! "+this.users.length);
+        });
     }
 
     save(newUser: User) {
         console.log("new user = "+newUser.avatarId);
-        
-        newUser.userId = this.userService.collection.length;
+        this.store.addNewUser(newUser);
+        /*newUser.userId = this.userService.collection.length;
         this.userService.addItem(newUser).subscribe(user => {
             this.userService.collection = [...this.userService.collection, user];
-        });
+        });*/
     }
 
 }
