@@ -66,7 +66,7 @@ export class NewProjectFormComponent implements OnInit {
     if (this.dataForm.valid) {
       let newProject: Project = new Project(this.title, this.projectNumber, this.selectedClient);
       this.save.emit({ event: event, project: newProject });
-      this.title = "";
+      this.dataForm.reset();
     }
   }
 

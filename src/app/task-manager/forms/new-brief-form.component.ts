@@ -49,7 +49,6 @@ export class NewBriefFormComponent implements OnInit {
   selectedProject: any;
   selectedCatlogId: number;
 
-  _briefs: Brief[] = [];
   dueDate: Date;
   results = [];
   keys: any[];
@@ -86,12 +85,11 @@ export class NewBriefFormComponent implements OnInit {
         this.selectedUser,
         this.formats,
         this.selectedClient,
-        this.dueDate.getTime()
-      )
+        this.dueDate?this.dueDate.getTime():null
+      ) 
+
       this.save.emit({ event: event, brief: newBrief });
-      this.title = "";
-      this.selectedClient = null;
-      this.selectedUser = null;
+      this.dataForm.reset();
     }
   }
 
