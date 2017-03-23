@@ -1,5 +1,4 @@
 import { Store } from './../store.service';
-import { ClientService } from './client.service';
 import { Client } from './Client';
 import { Component, OnInit } from '@angular/core';
 import { Header, Footer } from 'primeng/primeng';

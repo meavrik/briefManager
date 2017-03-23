@@ -59,8 +59,7 @@ export class NewUserFormComponent implements OnInit {
     if (this.dataForm.valid) {
       let newUser: User = new User(this.name, this.selectedAvatar);
       this.save.emit({ event: event, user: newUser });
-      this.name = "";
-      this.selectedAvatar = null;
+      this.dataForm.reset();
     }
   }
 

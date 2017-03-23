@@ -45,10 +45,7 @@ export class NewClientFormComponent implements OnInit {
     if (this.dataForm.valid) {
       let newClient: Client = new Client(this.name, new ContactInfo(this.country, this.city, this.address));
       this.save.emit({ event: event, client: newClient });
-      this.name = "";
-      this.address = '';
-      this.city = '';
-      this.country = '';
+      this.dataForm.reset();
     }
   }
 

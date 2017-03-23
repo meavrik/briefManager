@@ -10,8 +10,10 @@ var Schema = mongo.Schema;
 var bodyParser = require('body-parser');
 
 mongo.Promise = global.Promise;
-mongo.connect(url);
-//mongo.connect('mongodb://avrik:avrik123@ds161159.mlab.com:61159/briefsdburl',['tasks'])
+//mongo.connect(url)
+mongo.connect("mongodb://avrik:avrik123@ds161159.mlab.com:61159/briefsdb")
+
+
 var userSchema = new Schema({
     userId: Number,
     name: String,
@@ -33,50 +35,53 @@ var taskSchema = new Schema({
 }, { collection: 'tasks' })
 
 var clientSchema = new Schema({
+    index: Number,
     name: String,
-    clientId: Number,
     description: String,
+    profile: String,
     logoUrl: String,
     siteUrl: String,
-    contactInfo: {},
+    address: {},
+    contacts: [],
     relatedTasks: []
 }, { collection: 'clients' })
 
 var projectSchema = new Schema({
-    projectId: Number,
-    projectNumber: Number,
-    name: String,
+    index: Number,
+    title: String,
     description: String,
+    projectId: Number,
+    clientId: Number,
     relatedTasks: []
 }, { collection: 'projects' })
 
-let BriefTask   = mongo.model('BriefTask', taskSchema, 'tasks');
-let Client      = mongo.model('Client', clientSchema, 'clients');
-let User        = mongo.model('User', userSchema, 'users');
-let Project     = mongo.model('Project', projectSchema, 'projects');
+let BriefTask = mongo.model('BriefTask', taskSchema, 'tasks');
+let Client = mongo.model('Client', clientSchema, 'clients');
+let User = mongo.model('User', userSchema, 'users');
+let Project = mongo.model('Project', projectSchema, 'projects');
 
 let app = express();
-app.use(bodyParser.json());   // This is the type of body we're interested in
+app.use(bodyParser.json()); // This is the type of body we're interested in
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
 app.route('/clients/')
-    .get(function (req, res) {
+    .get(function(req, res) {
         console.log("get the client list!");
-        Client.find({}, {}, { limit: 100 }, function (err, doc) {
+        Client.find({}, {}, { limit: 100 }, function(err, doc) {
             assert.equal(null, err);
             res.send(doc);
         });
     })
-    .post(function (req, res, next) {
+    .post(function(req, res, next) {
         var client = new Client(req.body);
-        client.save(function (err, client) {
+        client.save(function(err, client) {
             if (err) { return next(err); }
             res.json(client);
         });
     })
-    .put(function (req, res) {
-        Client.findByIdAndUpdate(req.body._id, req.body, function (err, result) {
+    .put(function(req, res) {
+        Client.findByIdAndUpdate(req.body._id, req.body, function(err, result) {
             if (err) {
                 console.log(err);
             }
@@ -85,22 +90,22 @@ app.route('/clients/')
     })
 
 app.route('/briefs/')
-    .get(function (req, res) {
+    .get(function(req, res) {
         console.log("get the tasks list!");
-        BriefTask.find({}, {}, { limit: 100 }, function (err, doc) {
+        BriefTask.find({}, {}, { limit: 100 }, function(err, doc) {
             assert.equal(null, err);
             res.send(doc);
         });
     })
-    .post(function (req, res, next) {
+    .post(function(req, res, next) {
         var task = new BriefTask(req.body);
-        task.save(function (err, task) {
+        task.save(function(err, task) {
             if (err) { return next(err); }
             res.json(task);
         });
     })
-    .put(function (req, res) {
-        BriefTask.findByIdAndUpdate(req.body._id, req.body, function (err, result) {
+    .put(function(req, res) {
+        BriefTask.findByIdAndUpdate(req.body._id, req.body, function(err, result) {
             if (err) {
                 console.log(err);
             }
@@ -108,24 +113,26 @@ app.route('/briefs/')
         });
     })
 
+
+
 app.route('/users/')
-    .get(function (req, res) {
+    .get(function(req, res) {
         console.log("get the users list!");
 
-        User.find({}, {}, { limit: 100 }, function (err, doc) {
+        User.find({}, {}, { limit: 100 }, function(err, doc) {
             assert.equal(null, err);
             res.send(doc);
         });
     })
-    .post(function (req, res, next) {
+    .post(function(req, res, next) {
         var user = new User(req.body);
-        user.save(function (err, user) {
+        user.save(function(err, user) {
             if (err) { return next(err); }
             res.json(user);
         });
     })
-    .put(function (req, res) {
-        User.findByIdAndUpdate(req.body._id, req.body, function (err, result) {
+    .put(function(req, res) {
+        User.findByIdAndUpdate(req.body._id, req.body, function(err, result) {
             if (err) {
                 console.log(err);
             }
@@ -133,16 +140,19 @@ app.route('/users/')
         });
     })
 
+
+
+
 app.route('/projects')
-    .get(function (req, res) {
-        Project.find({}, {}, { limit: 100 }, function (err, doc) {
+    .get(function(req, res) {
+        Project.find({}, {}, { limit: 100 }, function(err, doc) {
             assert.equal(null, err);
             res.send(doc);
         });
     })
-    .post(function (req, res, next) {
+    .post(function(req, res, next) {
         var project = new Project(req.body);
-        project.save(function (err, project) {
+        project.save(function(err, project) {
             if (err) { return next(err); }
             res.json(project);
         });
@@ -177,7 +187,7 @@ app.route('/projects')
 
 
 
-app.listen(27017, function () {
+app.listen(27017, function() {
     console.log("server ready !!!1")
 });
 

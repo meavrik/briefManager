@@ -1,17 +1,17 @@
 export class Project {
-
+    _id:number
     index: number;
     projectId: number;
     projectNumber: number;
-    name: string;
+    title: string;
     description: string;
     created: number;
     open: boolean;
     status: number;
     client: any;
 
-    constructor(name: string, projectNumber: number, client: string) {
-        this.name = name;
+    constructor(title: string, projectNumber: number, client: string) {
+        this.title = title;
         this.client = client;
         this.created = new Date().getTime();
         this.open = true;
