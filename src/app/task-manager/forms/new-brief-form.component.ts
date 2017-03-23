@@ -1,3 +1,4 @@
+import { SelectItem } from 'primeng/primeng';
 import { Brief } from '../task-manager-briefs/brief.model';
 import { Store } from './../store.service';
 import { Client } from './../task-manager-clients/Client';
@@ -39,9 +40,9 @@ export class NewBriefFormComponent implements OnInit {
   dropDownStyle = { 'width': '30%', 'margin': '5px' };
 
   formats: string[] = [];
-  users: any[] = [];
-  clients: any[] = [];
-  projects: any[] = [];
+  users: SelectItem[] = [];
+  clients: SelectItem[] = [];
+  projects: SelectItem[] = [];
 
   selectedClient: any;
   selectedUser: number;
@@ -59,19 +60,16 @@ export class NewBriefFormComponent implements OnInit {
   @Output() save = new EventEmitter<any>();
   constructor(private store: Store, private formBuilder: FormBuilder) {
     this.store.users.subscribe(users => {
-      this.users = [...users];
-      this.users.forEach(item => { item.label = item.name; item.value = item.userId });
+      this.users = users.map(item => { return { label: item.name, value: item.userId } });
       this.users.unshift({ label: "משוייך ל", value: null })
     });
     this.store.clients.subscribe(clients => {
-      this.clients = [...clients];
-      this.clients.forEach(item => { item.label = item.value = item.name });
-      this.clients.unshift({ label: "לקוח" })
+      this.clients = clients.map(item => { return { label: item.name, value: item.name } });
+      this.clients.unshift({ label: "לקוח", value: null })
     });
     this.store.projects.subscribe(projects => {
-      this.projects = [...projects];
-      this.projects.forEach(item => { item.label = item.name; item; item.value = item.projectNumber });
-      this.projects.unshift({ label: "פרוייקט" })
+      this.projects = projects.map(item => { return { label: item.title, value: item.projectNumber } });
+      this.projects.unshift({ label: "פרוייקט", value: null })
     });
   }
 

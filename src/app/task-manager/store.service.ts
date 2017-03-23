@@ -6,39 +6,38 @@ import { Injectable } from '@angular/core';
 import { RequestOptions, Headers, Http } from '@angular/http';
 import { BehaviorSubject } from 'rxjs';
 
+const baseUrl = 'http://localhost:27017/';
 @Injectable()
 export class Store {
 
-  private baseUrl: string;
   private dataStore: any;
-  private _briefs: any;
-  private _users: any;
-  private _projects: any;
-  private _clients: any;
+  private _briefs: BehaviorSubject<Brief[]>;
+  private _users: BehaviorSubject<User[]>;
+  private _projects: BehaviorSubject<Project[]>;
+  private _clients: BehaviorSubject<Client[]>;
 
   constructor(private http: Http) {
-    this.baseUrl = 'http://localhost:27017/';
     this.dataStore = { briefs: [], clients: [], users: [], projects: [] };
-    this._briefs   = <BehaviorSubject<Brief[]>>new BehaviorSubject([]);
+    this._briefs = <BehaviorSubject<Brief[]>>new BehaviorSubject([]);
     this._projects = <BehaviorSubject<Project[]>>new BehaviorSubject([]);
-    this._users    = <BehaviorSubject<User[]>>new BehaviorSubject([]);
-    this._clients  = <BehaviorSubject<Client[]>>new BehaviorSubject([]);
+    this._users = <BehaviorSubject<User[]>>new BehaviorSubject([]);
+    this._clients = <BehaviorSubject<Client[]>>new BehaviorSubject([]);
   }
 
   get briefsCollection() {
-    return this.dataStore.briefs.filter(a=>a._id);
+    return this.dataStore.briefs.filter(a => a._id);
   }
 
   get clientsCollection() {
-    return this.dataStore.clients.filter(a=>a._id);
+    return this.dataStore.clients.filter(a => a._id);
   }
 
   get usersCollection() {
-    return this.dataStore.users.filter(a=>a._id);
+    return this.dataStore.users.filter(a => a._id);
   }
 
   get projectsCollection() {
-    return this.dataStore.projects.filter(a=>a._id);
+    return this.dataStore.projects.filter(a => a._id);
   }
 
   get briefs() { return this._briefs.asObservable(); }
@@ -88,10 +87,10 @@ export class Store {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
-    this.http.put(`${this.baseUrl}briefs`, JSON.stringify(brief), options)
+    this.http.put(`${baseUrl}briefs`, JSON.stringify(brief), options)
       .map(response => response.json() || []).subscribe(data => {
         this.dataStore.briefs.forEach((t, i) => {
-          if (t._id == data._id) { 
+          if (t._id == data._id) {
             this.dataStore.briefs[i] = data;
           }
         });
@@ -101,12 +100,12 @@ export class Store {
   }
 
   private addNewItem(item: any, query: string, serviceType: BehaviorSubject<any>) {
-    console.log("add new item "+query);
-    
+    console.log("add new item " + query);
+
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.post(`${this.baseUrl}${query}`, JSON.stringify(item), options)
+    return this.http.post(`${baseUrl}${query}`, JSON.stringify(item), options)
       .map(response => response.json() || []).subscribe(data => {
         this.dataStore[query].push(data);
         serviceType.next(Object.assign({}, this.dataStore)[query]);
@@ -114,7 +113,7 @@ export class Store {
   }
 
   private getCollection(query: string, serviceType: BehaviorSubject<any>) {
-    this.http.get(`${this.baseUrl}${query}`).map(response => response.json()).subscribe(data => {
+    this.http.get(`${baseUrl}${query}`).map(response => response.json()).subscribe(data => {
       this.dataStore[query] = data ? data : [];
       serviceType.next(Object.assign({}, this.dataStore)[query]);
     }, error => console.log('Could not load items.'));
