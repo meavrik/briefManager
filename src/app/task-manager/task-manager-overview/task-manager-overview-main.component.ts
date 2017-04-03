@@ -10,13 +10,15 @@ import { ElementRef, Component, OnInit } from '@angular/core';
   <task-manager-item-dialog *ngIf="selectedBrief" [brief]="selectedBrief"></task-manager-item-dialog>
 
    <p-growl [value]="msgs"></p-growl>
+
     <p-dataTable [value]="status" pDroppable="briefs" (onDrop)="drop($event)"  [style]="{'flex-align':'start'}">
         <p-header>מבט כללי
         </p-header>
             
         <p-column *ngFor="let item of cols let i = index;" [field]="item.field" [header]="item.header"
-          [style]="{'background-color':'red','align-items':'flex-start'}"
+          [style]="{'vertical-align':'top'}"
           > 
+ 
           <template let-item="rowData" pTemplate="item">
            <task-manager-overview-item *ngFor="let brief of briefsStatusArr[i]" [brief]="brief"
              pDraggable="briefs" 
