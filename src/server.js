@@ -5,14 +5,12 @@ var mongo = require("mongoose");
 var router = express.Router();
 var cors = require("cors");
 var assert = require('assert')
-var url = 'mongodb://localhost/briefsDB';
+var url = 'mongodb://avrik:avrik123@ds161159.mlab.com:61159/briefsdb'; // 'mongodb://localhost/briefsDB';
 var Schema = mongo.Schema;
 var bodyParser = require('body-parser');
 
 mongo.Promise = global.Promise;
-//mongo.connect(url)
-mongo.connect("mongodb://avrik:avrik123@ds161159.mlab.com:61159/briefsdb")
-
+mongo.connect(url)
 
 var userSchema = new Schema({
     userId: Number,
@@ -159,51 +157,6 @@ app.route('/projects')
     });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*app.post('/addnewtask/', function(req, res) {
-        var newTask = {
-            id:1,
-            name:"testtt"
-        }
- 
-        mongo.connect(url,function(err,db){
-            assert.equal(err, null);
-            db.collection('tasks').
-        });
-    }
-)*/
-
-
-
 app.listen(27017, function() {
     console.log("server ready !!!1")
 });
-
-
-
-/*var insertDocument = function(db, callback) {
-    db.collection('tasks').insertOne( {
-        "address" : {
-            "street" : "2 Avenue",
-            "zipcode" : "10075",
-            "building" : "1480",
-        },
-        "name" : "Vella",
-    }, function(err, result) {
-    assert.equal(err, null);
-    console.log("Inserted a document into the restaurants collection.");
-    callback();
-    });
-};*/

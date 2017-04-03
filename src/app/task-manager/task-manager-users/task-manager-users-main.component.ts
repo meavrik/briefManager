@@ -10,7 +10,7 @@ import { Header ,Footer} from 'primeng/primeng';
   <p-dataTable [value]="users" selectionMode="single" [(selection)]="selectedUser">
       <p-column styleClass="col-button" header="כינוי" [style]="{'width':'60px'}">
           <template let-user="rowData" pTemplate="body">
-             <img src="./resources/starwars/avatar_{{user.avatarId}}.jpeg" style="height:40px"/>
+             <img src="./assets/starwars/avatar_{{user.avatarId}}.jpeg" style="height:40px"/>
           </template>
       </p-column>
 
