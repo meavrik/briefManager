@@ -1,3 +1,4 @@
+import {SelectButtonModule} from 'primeng/primeng';
 import { TaskManagerOverviewItemComponent } from './task-manager-overview/task-manager-overview-item.component';
 import { TaskManagerItemDialogComponent } from './task-manager-overview/task-manager-item-dialog.component';
 import { TaskManagerOverviewMainComponent } from './task-manager-overview/task-manager-overview-main.component';
@@ -63,6 +64,7 @@ import { NewClientFormComponent } from './forms/new-client-form.component';
     DataTableModule,
     AccordionModule,
     GrowlModule,
+    SelectButtonModule,
     RouterModule.forRoot(routes),
   ],
   providers: [UserService, Store],

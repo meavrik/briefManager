@@ -1,3 +1,4 @@
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { routes } from './routes';
 import { AppConfigService } from './app-config.service';
 import {RouterModule} from '@angular/router';
@@ -17,7 +18,7 @@ import { AppComponent } from './app.component';
     FormsModule,
     HttpModule,
     TaskManagerModule,
-    
+    BrowserAnimationsModule 
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -42,9 +42,11 @@ import { Component, OnInit } from '@angular/core';
     
     <div class="app-content">
         <task-manager-toolbar [isDarkTheme]="isDarkTheme"></task-manager-toolbar>
-        <task-manager-menu-main (pickCommand)="selected($event.type)"></task-manager-menu-main>
-
-        <router-outlet></router-outlet>
+        <div style="display:flex;flex-direction:row">
+            
+            <task-manager-menu-main (pickCommand)="selected($event.type)"></task-manager-menu-main>
+            <router-outlet></router-outlet>
+        </div>
         <md-card>
             <p>Last dialog result: {{lastDialogResult}}</p>
             <button md-raised-button (click)="openDialog()">Comment</button>

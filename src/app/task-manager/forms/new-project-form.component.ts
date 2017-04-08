@@ -5,12 +5,13 @@ import { Project } from './../task-manager-projects/project.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
+/*<p-spinner formControlName="projectNumber" step="1000" [(ngModel)]="projectNumber" placeholder="מספר קטלוגי" [min]='1000'></p-spinner>*/
 @Component({
   selector: 'new-project-form',
   template: `
     <form [formGroup]="dataForm" style="height:150px">
         <input formControlName="title" type="text" pInputText [(ngModel)]="title" placeholder="שם"/>
-        <p-spinner formControlName="projectNumber" step="1000" [(ngModel)]="projectNumber" placeholder="מספר קטלוגי" [min]='1000'></p-spinner>
+        <span>מספר קטלוגי : {{projectNumber}} </span>
 
          <p-dropdown class="input" 
          formControlName="client" 

@@ -1,11 +1,32 @@
 import {Router} from '@angular/router';
-import { MenuItem } from 'primeng/primeng';
+import { MenuItem, SelectItem } from 'primeng/primeng';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
+/* <p-menubar [model]="items"></p-menubar>*/
 @Component({
     selector: 'task-manager-menu-main',
     template: `
-      <p-menubar [model]="items"></p-menubar>
+     
+        <p-accordion class="menu-button">
+            <p-accordionTab [selected]="true">
+            <p-header>
+            <i class="material-icons">home</i>
+            </p-header>
+               <p-selectButton [options]="options" [(ngModel)]="selectedOption"></p-selectButton>
+            </p-accordionTab>
+            <p-accordionTab>
+            <p-header>
+               <i class="material-icons">tab</i>
+            </p-header>
+            </p-accordionTab>
+            <p-accordionTab header="ניהול פרוייקטים">
+                Content 3    
+            </p-accordionTab>
+
+            <p-accordionTab header="ניהול לקוחות">
+                Content 3    
+            </p-accordionTab>
+        </p-accordion>
   `,
     styles: []
 })
@@ -13,7 +34,14 @@ export class TaskManagerMenuMainComponent implements OnInit {
 
     constructor(private router: Router) { }
     private items: MenuItem[];
-
+    selectedOption=0;
+    options:SelectItem[] = [
+        {label:'בריף חדש',value:0},
+        {label:'בריף חדש',value:1},
+        {label:'בריף חדש',value:2},
+        {label:'בריף חדש',value:30},
+        
+        ]
     @Output() pickCommand = new EventEmitter<any>();
 
     ngOnInit() {

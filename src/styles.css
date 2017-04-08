@@ -18,6 +18,10 @@
     z-index:100;
 }
 
+.ui-accordion .ui-accordion-header a {
+    background-color: #571845;
+    color: white;
+}
 
 md-sidenav-layout.m2app-dark {
     background: black;
