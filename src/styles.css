@@ -16,14 +16,11 @@
     z-index: 100;
 }
 
-<<<<<<< HEAD
 .ui-accordion .ui-accordion-header a {
     background-color: #571845;
     color: white;
 }
 
-=======
->>>>>>> 7d2e0520a84460d31fabfe78d256a4ac1253745d
 md-sidenav-layout.m2app-dark {
     background: black;
     direction: rtl;
