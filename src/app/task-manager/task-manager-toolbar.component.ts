@@ -4,7 +4,7 @@ import { Component, OnInit, Input } from '@angular/core';
   selector: 'task-manager-toolbar',
   template: `
     <md-toolbar color="primary">
-        <img src="./resources/starwars/avatar_2.jpeg" alt="Smiley face">
+        <img src="./assets/starwars/avatar_2.jpeg" alt="Smiley face">
         <button class="app-icon-button" (click)="sidenav.toggle()">
              <i class="material-icons app-toolbar-menu">menu</i>
         </button> מערכת ניהול בריפים

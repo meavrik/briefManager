@@ -18,7 +18,7 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
         >
             <template let-avatar pTemplate="item">
                 <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
-                    <img src="./resources/starwars/avatar_{{avatar.value}}.jpeg" style="height:25px;position:absolute;top:1px;left:1px"/>
+                    <img src="./assets/starwars/avatar_{{avatar.value}}.jpeg" style="height:25px;position:absolute;top:1px;left:1px"/>
                     <div style="font-size:14px;float:right;margin:4px">{{avatar.label}}</div>
                 </div>
             </template>

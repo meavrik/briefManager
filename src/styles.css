@@ -3,26 +3,27 @@
 @import '~@angular/material/core/theming/prebuilt/deeppurple-amber.css';
 @import '~primeng/resources/themes/omega/theme.css';
 @import '~primeng/resources/primeng.min.css';
-@import 'resources/font-awesome-4.7.0/css/font-awesome.min.css';
-
+@import 'assets/font-awesome-4.7.0/css/font-awesome.min.css';
 * {
     font-family: 'Varela Round', sans-serif;
 }
 
-
 .fixedElement {
     background-color: #c0c0c0;
-    position:fixed;
-    top:0;
-    width:100%;
-    z-index:100;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
 }
 
+<<<<<<< HEAD
 .ui-accordion .ui-accordion-header a {
     background-color: #571845;
     color: white;
 }
 
+=======
+>>>>>>> 7d2e0520a84460d31fabfe78d256a4ac1253745d
 md-sidenav-layout.m2app-dark {
     background: black;
     direction: rtl;
@@ -46,22 +47,19 @@ md-toolbar {
 }
 
 .app-content-inner {
-    display:flex;
+    display: flex;
     background-color: #e2546d;
-    
 }
 
 .app-content md-card {
     margin: 10px;
-
-    overflow-x:hidden;
+    overflow-x: hidden;
 }
 
 .app-sidenav {
     direction: rtl;
     padding: 10px;
     min-width: 100px;
-    
 }
 
 .app-content md-checkbox {

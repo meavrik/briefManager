@@ -27,7 +27,8 @@ const colorsArr = [
       <p-accordion>
         <p-accordionTab>
             <p-header>
-                <img src="./resources/starwars/avatar_{{avatar}}.jpeg" alt="Smiley face" style="width:20px">
+                <img src="./assets/starwars/avatar_{{avatar}}.jpeg" alt=":)" style="width:20px">
+                
                 {{brief.title}}
             </p-header>
         
