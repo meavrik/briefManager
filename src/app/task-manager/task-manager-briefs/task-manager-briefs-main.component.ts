@@ -33,9 +33,9 @@ import { ElementRef, ViewChild, Component, OnInit } from '@angular/core';
         </p-header>
         <p-column *ngFor="let item of cols" [field]="item.field" [header]="item.header" [sortable]="true" [editable]="true"></p-column>
         <p-column [field]="due" header="יעד">
-            <template let-col let-item="rowData" let-ri="rowIndex" pTemplate="body">
+            <ng-template let-col let-item="rowData" let-ri="rowIndex" pTemplate="body">
                 <span>{{item.due | date}}</span>
-            </template>
+            </ng-template>
         </p-column>
 
         <p-column styleClass="col-button" [style]="{'width':'60px'}">

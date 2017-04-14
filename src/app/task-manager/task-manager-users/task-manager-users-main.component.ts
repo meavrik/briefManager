@@ -9,9 +9,9 @@ import { Header ,Footer} from 'primeng/primeng';
 
   <p-dataTable [value]="users" selectionMode="single" [(selection)]="selectedUser">
       <p-column styleClass="col-button" header="כינוי" [style]="{'width':'60px'}">
-          <template let-user="rowData" pTemplate="body">
+          <ng-template let-user="rowData" pTemplate="body">
              <img src="./assets/starwars/avatar_{{user.avatarId}}.jpeg" style="height:40px"/>
-          </template>
+          </ng-template>
       </p-column>
 
     <p-column field="userId" header="#" [style]="{'width':'40px'}"></p-column>

@@ -25,8 +25,8 @@ const colorsArr = [
   selector: 'task-manager-overview-item',
   template: `
       <p-accordion>
-        <p-accordionTab>
-            <p-header>
+        <p-accordionTab >
+            <p-header draggable="false">
                 <img src="./assets/starwars/avatar_{{avatar}}.jpeg" alt=":)" style="width:20px">
                 
                 {{brief.title}}

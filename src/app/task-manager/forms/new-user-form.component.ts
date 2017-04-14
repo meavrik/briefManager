@@ -16,12 +16,12 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
         [required]="true"
         scrollHeight="100px"
         >
-            <template let-avatar pTemplate="item">
+            <ng-template let-avatar pTemplate="item">
                 <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
                     <img src="./assets/starwars/avatar_{{avatar.value}}.jpeg" style="height:25px;position:absolute;top:1px;left:1px"/>
                     <div style="font-size:14px;float:right;margin:4px">{{avatar.label}}</div>
                 </div>
-            </template>
+            </ng-template>
         </p-dropdown>
         
         <button pButton type="button" [disabled]="!dataForm.valid" (click)="onClick()" label="שמור" [style]="{'text-align':'left'}"></button>

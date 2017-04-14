@@ -1,6 +1,5 @@
 import { Store } from './../store.service';
 import { Brief } from './../task-manager-briefs/brief.model';
-import { Router } from '@angular/router';
 import { MenuItem, Message } from 'primeng/primeng';
 import { ElementRef, Component, OnInit } from '@angular/core';
 
@@ -11,7 +10,7 @@ import { ElementRef, Component, OnInit } from '@angular/core';
 
    <p-growl [value]="msgs"></p-growl>
 
-    <p-dataTable [value]="status" pDroppable="briefs" (onDrop)="drop($event)"  [style]="{'flex-align':'start'}">
+    <p-dataTable [value]="status" pDroppable="briefs" (onDrop)="drop($event)" [style]="{'flex-align':'start'}">
         <p-header>מבט כללי
         </p-header>
             
@@ -19,25 +18,21 @@ import { ElementRef, Component, OnInit } from '@angular/core';
           [style]="{'vertical-align':'top'}"
           > 
  
-          <template let-item="rowData" pTemplate="item">
+          <ng-template let-item="rowData" pTemplate="item">
            <task-manager-overview-item *ngFor="let brief of briefsStatusArr[i]" [brief]="brief"
              pDraggable="briefs" 
              (onDragStart)="dragStart($event,brief)" 
              (onDragEnd)="dragEnd($event,i)"
              [ngClass]="{'ui-state-highlight':draggedBrief}"
-             (selected)="briefSelected($event.checked)">
+              >
            </task-manager-overview-item>
-          </template>
+          </ng-template>
         </p-column>
     </p-dataTable>
   `,
   styles: []
 })
-export class TaskManagerOverviewMainComponent implements OnInit {
-
-  briefSelected(checked: boolean, brief: Brief) {
-    this.selectedBrief = brief;
-  }
+export class TaskManagerOverviewMainComponent {
 
   selectedBrief: Brief;
   cols: any[];
@@ -46,13 +41,8 @@ export class TaskManagerOverviewMainComponent implements OnInit {
   msgs: Message[] = [];
   draggedBrief: Brief;
   briefs: Brief[];
-  
-  constructor(private store: Store, router: Router) {
 
-  }
-
-  ngOnInit() {
-
+  constructor(private store: Store) {
     this.cols = [
       { field: 'open', header: 'פתוח' },
       { field: 'in-progress', header: 'בעבודה' },
@@ -62,12 +52,9 @@ export class TaskManagerOverviewMainComponent implements OnInit {
 
     this.store.briefs.subscribe(briefs => {
       this.briefsStatusArr = this.cols.map(a => []);
-      this.briefs = [...briefs];
+      this.briefs = briefs.filter(brief => !isNaN(brief.status))
       this.briefs.forEach(brief => {
-        if (!isNaN(brief.status)) {
           this.briefsStatusArr[brief.status].push(brief);
-        }
-
       })
     });
   }
@@ -78,6 +65,7 @@ export class TaskManagerOverviewMainComponent implements OnInit {
   }
 
   drop(event: DragEvent) {
+    console.log('drop ' + event);
     let element = event.toElement;
 
     if (!(element instanceof HTMLTableCellElement)) {
@@ -93,13 +81,13 @@ export class TaskManagerOverviewMainComponent implements OnInit {
         this.store.updateBrief(this.draggedBrief);
         this.store.updateBrief(this.draggedBrief);
 
-        this.msgs.push({severity:'success', summary:'סטטוס עודכן בהצלחה', detail:`${this.draggedBrief.title} עודכן לסטטוס ${this.draggedBrief.statusName}`});
+        this.msgs.push({ severity: 'success', summary: 'סטטוס עודכן בהצלחה', detail: `${this.draggedBrief.title} עודכן לסטטוס ${this.draggedBrief.statusName}` });
       }
     }
   }
 
   dragEnd(event) {
-    //this.draggedBrief = null;
+    console.log('dragEnd ' + event);
   }
 
 }
