@@ -32,7 +32,7 @@ const colorsArr = [
                 {{brief.title}}
             </p-header>
         
-           <p>{{brief.description}}</p>
+           <strong>{{brief.description}}</strong>
            <p>{{brief.project}}</p>
         </p-accordionTab>
       </p-accordion>

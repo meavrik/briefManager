@@ -37,6 +37,12 @@ import { ElementRef, ViewChild, Component, OnInit } from '@angular/core';
                 <span>{{item.due | date}}</span>
             </template>
         </p-column>
+
+        <p-column styleClass="col-button" [style]="{'width':'60px'}">
+            <ng-template let-client="rowData" pTemplate="body" >
+                <button type="button" pButton (click)="remove(client)" icon="fa-trash"></button>
+            </ng-template>
+        </p-column>
     </p-dataTable>
   `,
     styles: [

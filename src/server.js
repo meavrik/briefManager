@@ -29,10 +29,11 @@ var taskSchema = new Schema({
     assignto: Number,
     priority: Number,
     open: Boolean,
-    category: String
+    category: String,
 }, { collection: 'tasks' })
 
 var clientSchema = new Schema({
+    clientId: Number,
     index: Number,
     name: String,
     description: String,
@@ -45,6 +46,8 @@ var clientSchema = new Schema({
 }, { collection: 'clients' })
 
 var projectSchema = new Schema({
+    projectId: Number,
+    projectNumber: Number,
     index: Number,
     title: String,
     description: String,
@@ -87,6 +90,8 @@ app.route('/clients/')
         });
     })
 
+
+
 app.route('/briefs/')
     .get(function(req, res) {
         console.log("get the tasks list!");
@@ -109,8 +114,14 @@ app.route('/briefs/')
             }
             res.send(result);
         });
-    })
-
+    }).delete(function(req, res) {
+        BriefTask.delete(req._id, function(err, result) {
+            if (err) {
+                console.log(err);
+            }
+            res.send(result);
+        });
+    });
 
 
 app.route('/users/')

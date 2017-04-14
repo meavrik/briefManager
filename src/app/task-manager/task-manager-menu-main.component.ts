@@ -3,28 +3,37 @@ import { MenuItem, SelectItem } from 'primeng/primeng';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 /* <p-menubar [model]="items"></p-menubar>*/
+//<p-selectButton [options]="options" [(ngModel)]="selectedOption"></p-selectButton>
 @Component({
     selector: 'task-manager-menu-main',
     template: `
      
         <p-accordion class="menu-button">
-            <p-accordionTab [selected]="true">
-            <p-header>
-            <i class="material-icons">home</i>
-            </p-header>
-               <p-selectButton [options]="options" [(ngModel)]="selectedOption"></p-selectButton>
-            </p-accordionTab>
-            <p-accordionTab>
-            <p-header>
-               <i class="material-icons">tab</i>
-            </p-header>
-            </p-accordionTab>
-            <p-accordionTab header="ניהול פרוייקטים">
-                Content 3    
+            <p-accordionTab [selected]="true" (click)="gotopage()">
+                <p-header>
+                <i class="material-icons">home</i>
+                </p-header>
+              <button pButton type="button" label="בריף חדש" (click)="createNew('newBrief')" style="width:100%;"></button>
+               
+              
             </p-accordionTab>
 
-            <p-accordionTab header="ניהול לקוחות">
-                Content 3    
+            <p-accordionTab (click)="gotopage(1)">
+                <p-header>
+                <i class="material-icons">tab</i>
+                </p-header>
+                <button pButton type="button" label="צור חדש" (click)="createNew('newBrief')" style="width:100%;"></button>
+            </p-accordionTab>
+
+            <p-accordionTab (click)="gotopage(2)" header="פרוייקטים">
+                <button pButton type="button" label="צור חדש" (click)="createNew('newProject')" style="width:100%;"></button>
+            </p-accordionTab>
+
+            <p-accordionTab (click)="gotopage(3)" header="לקוחות">
+               <button pButton type="button" label="צור חדש" (click)="createNew('newClient')" style="width:100%;margin:0px"></button>
+            </p-accordionTab>
+            <p-accordionTab (click)="gotopage(4)" header="משתמשים">
+               <button pButton type="button" label="צור חדש" (click)="createNew('newUser')" style="width:100%;margin:0px"></button>
             </p-accordionTab>
         </p-accordion>
   `,
@@ -37,12 +46,22 @@ export class TaskManagerMenuMainComponent implements OnInit {
     selectedOption=0;
     options:SelectItem[] = [
         {label:'בריף חדש',value:0},
-        {label:'בריף חדש',value:1},
-        {label:'בריף חדש',value:2},
-        {label:'בריף חדש',value:30},
+        {label:'לקוח חדש',value:1},
+        {label:'פרוייקט חדש',value:2},
+        {label:'משתמש חדש',value:3},
         
         ]
     @Output() pickCommand = new EventEmitter<any>();
+
+
+    gotopage(pageNum:number=0) {
+        let pages = ['overview','briefs','projects','clients','users']
+        this.router.navigate([pages[pageNum]]);
+    }
+
+    createNew(action:string){
+        this.pickCommand.emit({ event: event, type: action });
+    }
 
     ngOnInit() {
         this.items = [

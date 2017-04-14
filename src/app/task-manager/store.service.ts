@@ -83,6 +83,22 @@ export class Store {
     this.addNewItem(client, 'clients', this._clients);
   }
 
+  removeClient(client: Client) {
+    if (!client) return;
+    
+    this.http.delete(`${baseUrl}clients`, JSON.stringify(client))
+      .map(response => response.json() || []).subscribe(data => {
+        this.dataStore.clients.forEach((t, i) => {
+          if (t._id == data._id) {
+            this.dataStore.clients[i] = data;
+          }
+        });
+
+        this._clients.next(Object.assign({}, this.dataStore).clients);
+      }, error => console.log('Could not delete client.'));
+  }
+  
+
   updateBrief(brief: Brief) {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });

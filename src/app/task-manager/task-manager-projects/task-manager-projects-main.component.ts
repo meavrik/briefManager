@@ -12,6 +12,12 @@ import { Component, OnInit } from '@angular/core';
 
         </p-header>
         <p-column *ngFor="let item of cols" [field]="item.field" [header]="item.header" [sortable]="true"></p-column>
+
+        <p-column styleClass="col-button" [style]="{'width':'60px'}">
+            <ng-template let-client="rowData" pTemplate="body" >
+                <button type="button" pButton (click)="remove(client)" icon="fa-trash"></button>
+            </ng-template>
+        </p-column>
     </p-dataTable>
   `,
   styles: []
