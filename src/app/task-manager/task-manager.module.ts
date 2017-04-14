@@ -34,7 +34,7 @@ import {
   MenubarModule,
   TabViewModule,
   DialogModule,
-  SpinnerModule, DataTableModule,GrowlModule,AccordionModule
+  SpinnerModule, DataTableModule, GrowlModule, AccordionModule, PanelModule
 } from 'primeng/primeng';
 import { NewProjectFormComponent } from './forms/new-project-form.component';
 import { NewClientFormComponent } from './forms/new-client-form.component';
@@ -65,6 +65,7 @@ import { NewClientFormComponent } from './forms/new-client-form.component';
     AccordionModule,
     GrowlModule,
     SelectButtonModule,
+    PanelModule,
     RouterModule.forRoot(routes),
   ],
   providers: [UserService, Store],

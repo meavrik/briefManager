@@ -16,15 +16,8 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
     <br/>*/
 
 
-const colorsArr = [
-      {'width':'100%','background-color':'yellow'},
-      {'width':'100%','background-color':'red','color':'white'},
-      {'width':'100%','background-color':'green','color':'white'},
-      {'width':'100%'}];
-@Component({
-  selector: 'task-manager-overview-item',
-  template: `
-      <p-accordion>
+
+/*<p-accordion>
         <p-accordionTab >
             <p-header draggable="false">
                 <img src="./assets/starwars/avatar_{{avatar}}.jpeg" alt=":)" style="width:20px">
@@ -35,7 +28,21 @@ const colorsArr = [
            <strong>{{brief.description}}</strong>
            <p>{{brief.project}}</p>
         </p-accordionTab>
-      </p-accordion>
+      </p-accordion>*/
+
+const colorsArr = [
+      {'width':'100%','background-color':'yellow'},
+      {'width':'100%','background-color':'red','color':'white'},
+      {'width':'100%','background-color':'green','color':'white'},
+      {'width':'100%'}];
+@Component({
+  selector: 'task-manager-overview-item',
+  template: `
+      
+      
+    <p-panel header="{{brief.title}}">
+       {{brief.description}}
+    </p-panel>
       
   `,
   styles: []

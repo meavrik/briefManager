@@ -17,7 +17,6 @@ import { ElementRef, Component, OnInit } from '@angular/core';
         <p-column *ngFor="let item of cols let i = index;" [field]="item.field" [header]="item.header"
           [style]="{'vertical-align':'top'}"
           > 
- 
           <ng-template let-item="rowData" pTemplate="item">
            <task-manager-overview-item *ngFor="let brief of briefsStatusArr[i]" [brief]="brief"
              pDraggable="briefs" 
@@ -27,6 +26,7 @@ import { ElementRef, Component, OnInit } from '@angular/core';
               >
            </task-manager-overview-item>
           </ng-template>
+
         </p-column>
     </p-dataTable>
   `,
@@ -51,11 +51,13 @@ export class TaskManagerOverviewMainComponent {
     ];
 
     this.store.briefs.subscribe(briefs => {
-      this.briefsStatusArr = this.cols.map(a => []);
-      this.briefs = briefs.filter(brief => !isNaN(brief.status))
-      this.briefs.forEach(brief => {
+      if (briefs && briefs.length) {
+        this.briefsStatusArr = this.cols.map(a => []);
+        this.briefs = briefs.filter(brief => !isNaN(brief.status))
+        this.briefs.forEach(brief => {
           this.briefsStatusArr[brief.status].push(brief);
-      })
+        })
+      }
     });
   }
 
