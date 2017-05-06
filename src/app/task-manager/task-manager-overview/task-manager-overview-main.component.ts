@@ -10,7 +10,7 @@ import { ElementRef, Component, OnInit } from '@angular/core';
 
    <p-growl [value]="msgs"></p-growl>
 
-    <p-dataTable [value]="status" pDroppable="briefs" (onDrop)="drop($event)" [style]="{'flex-align':'start'}">
+    <p-dataTable [value]="status" pDroppable="briefs" (onDrop)="drop($event)" [style]="{'flex-align':'start','height':'400px'}">
         <p-header>מבט כללי
         </p-header>
             

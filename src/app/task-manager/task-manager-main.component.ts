@@ -52,7 +52,7 @@ import { Component, OnInit } from '@angular/core';
             <button md-raised-button (click)="openDialog()">Comment</button>
         </md-card>
 
-        <p-dialog header="בריף חדש" [(visible)]="displayNewBrief" modal="modal" [rtl]="true">
+        <p-dialog header="בריף חדש" [(visible)]="displayNewBrief" modal="modal" rtl="true" width="800">
            <new-brief-form (save)="saveBrief($event.brief)"></new-brief-form>
         </p-dialog>
         

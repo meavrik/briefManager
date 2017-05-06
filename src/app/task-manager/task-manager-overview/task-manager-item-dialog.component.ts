@@ -15,11 +15,11 @@ import { Component, OnInit, Input } from '@angular/core';
   `,
   styles: []
 })
-export class TaskManagerItemDialogComponent implements OnInit {
+export class TaskManagerItemDialogComponent {
+  display:boolean;
 
   constructor() { }
   @Input() brief;
-  ngOnInit() {
-  }
+
 
 }

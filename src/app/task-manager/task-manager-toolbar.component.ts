@@ -5,7 +5,7 @@ import { Component, OnInit, Input } from '@angular/core';
   template: `
     <md-toolbar color="primary">
         <img src="./assets/starwars/avatar_2.jpeg" alt="Smiley face">
-        <button class="app-icon-button" (click)="sidenav.toggle()">
+        <button class="app-icon-button">
              <i class="material-icons app-toolbar-menu">menu</i>
         </button> מערכת ניהול בריפים
         

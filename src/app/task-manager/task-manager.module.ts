@@ -23,7 +23,7 @@ import { TaskManagerMenuComponent } from './task-manager-menu.component';
 import { TaskManagerToolbarComponent } from './task-manager-toolbar.component';
 import { TaskManagerSidenavComponent } from './task-manager-sidenav.component';
 import {
-  EditorModule,
+
   ChipsModule,
   CalendarModule,
   MultiSelectModule,
@@ -58,7 +58,6 @@ import { NewClientFormComponent } from './forms/new-client-form.component';
     MultiSelectModule,
     CalendarModule,
     ChipsModule,
-    EditorModule,
     SpinnerModule,
     TaskManagerChartsModule,
     DataTableModule,

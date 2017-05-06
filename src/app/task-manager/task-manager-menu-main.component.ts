@@ -11,28 +11,56 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
         <p-accordion class="menu-button">
             <p-accordionTab [selected]="true" (click)="gotopage()">
                 <p-header>
-                <i class="material-icons">home</i>
+                <div style="display:flex">
+                    <i class="material-icons" style="border-left:1px solid black;margin-left:20px;padding-left:20px;">home</i>
+                    <span>מבט כללי</span>
+                </div>
                 </p-header>
               <button pButton type="button" label="בריף חדש" (click)="createNew('newBrief')" style="width:100%;"></button>
                
               
             </p-accordionTab>
 
-            <p-accordionTab (click)="gotopage(1)">
+            <p-accordionTab (click)="gotopage(1)" header="בריפים">
                 <p-header>
-                <i class="material-icons">tab</i>
+                    <div style="display:flex">
+                        <i class="material-icons" style="border-left:1px solid black;margin-left:20px;padding-left:20px;">playlist_add_check</i>
+                        <span>בריפים</span>
+                    </div>
                 </p-header>
                 <button pButton type="button" label="צור חדש" (click)="createNew('newBrief')" style="width:100%;"></button>
             </p-accordionTab>
 
             <p-accordionTab (click)="gotopage(2)" header="פרוייקטים">
+                <p-header>
+                    <div style="display:flex">
+                        <i class="material-icons" style="border-left:1px solid black;margin-left:20px;padding-left:20px;">assignment</i>
+                        <span>פרוייקטים</span>
+                    </div>
+                </p-header>
                 <button pButton type="button" label="צור חדש" (click)="createNew('newProject')" style="width:100%;"></button>
             </p-accordionTab>
 
+
             <p-accordionTab (click)="gotopage(3)" header="לקוחות">
+                <p-header>
+                    <div style="display:flex">
+                        <i class="material-icons" style="border-left:1px solid black;margin-left:20px;padding-left:20px;">face</i>
+                        <span>לקוחות</span>
+                    </div>
+                </p-header>
                <button pButton type="button" label="צור חדש" (click)="createNew('newClient')" style="width:100%;margin:0px"></button>
             </p-accordionTab>
+
+
+
             <p-accordionTab (click)="gotopage(4)" header="משתמשים">
+                <p-header>
+                    <div style="display:flex">
+                        <i class="material-icons" style="border-left:1px solid black;margin-left:20px;padding-left:20px;">phone</i>
+                        <span>משתמשים</span>
+                    </div>
+                </p-header>
                <button pButton type="button" label="צור חדש" (click)="createNew('newUser')" style="width:100%;margin:0px"></button>
             </p-accordionTab>
         </p-accordion>

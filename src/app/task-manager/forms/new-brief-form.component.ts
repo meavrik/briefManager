@@ -7,23 +7,26 @@ import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms'
 import { Input, Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
+/*<p-editor #textarea formControlName="description" [(ngModel)]="description" placeholder="" [style]="{'height':'80px'}">
+          </p-editor>*/
+
 @Component({
   selector: 'new-brief-form',
   template: `
 
-      <form [formGroup]="dataForm" (ngSubmit)="onSubmit(userform.value)">
+      <form [formGroup]="dataForm" (ngSubmit)="onSubmit(dataForm.value)">
           <p-autoComplete [(ngModel)]="title" formControlName="title" [suggestions]="results" placeholder="כותרת" [style]="dropDownStyle"></p-autoComplete>
           <p-dropdown class="input" formControlName="user" [options]="users" [(ngModel)]="selectedUser" [style]="dropDownStyle" [required]="true"></p-dropdown>
           <p-calendar formControlName="dueDate" [(ngModel)]="dueDate" placeholder="תאריך יעד" [showIcon]="true" [style]="dropDownStyle">></p-calendar> 
           <br/>
           
           <p-dropdown formControlName="client" [options]="clients" [(ngModel)]="selectedClient" [style]="dropDownStyle"></p-dropdown>
-          <p-dropdown formControlName="project" [options]="projects" [(ngModel)]="selectedProject" [style]="dropDownStyle" (onChange)="onProjectSelect()"></p-dropdown>
+          <p-dropdown formControlName="project" [options]="projects" [(ngModel)]="selectedProject" [style]="dropDownStyle" (onChange)="onProjectSelect($event)"></p-dropdown>
           <p-spinner formControlName="catalogId" [disabled]="!selectedProject" [(ngModel)]="selectedCatlogId" placeholder="מספר קטלוגי" [min]='1' [max]='1000000' [style]="dropDownStyle"></p-spinner>
-          <br/>
-           <p>תיאור המשימה</p>
-          <p-editor #textarea formControlName="description" [(ngModel)]="description" placeholder="" [style]="{'height':'80px'}">
-          </p-editor>
+
+          <hr>
+          <textarea formControlName="description" pInputTextarea [(ngModel)]="description" placeholder="טקסט חופשי" style="width:100%"></textarea>
+          
           <br/>
           <p-chips formControlName="keys" [(ngModel)]="keys" placeholder="קטגוריות (לדוגמא : פרינט,ווב וכו)"></p-chips>
           <p-chips formControlName="formats" [(ngModel)]="formats" placeholder="פורמטים (A4, A5, Letter)"></p-chips>
@@ -57,6 +60,7 @@ export class NewBriefFormComponent implements OnInit {
   submitted: boolean;
 
   @Output() save = new EventEmitter<any>();
+
   constructor(private store: Store, private formBuilder: FormBuilder) {
     this.store.users.subscribe(users => {
       this.users = users.map(item => { return { label: item.name, value: item.userId } });
@@ -67,14 +71,15 @@ export class NewBriefFormComponent implements OnInit {
       this.clients.unshift({ label: "לקוח", value: null })
     });
     this.store.projects.subscribe(projects => {
-      this.projects = projects.map(item => { return { label: item.title, value: item.projectNumber } });
-      this.projects.unshift({ label: "פרוייקט", value: null })
+      this.projects = projects.map(item => { return { label: item.title, value: item.projectId } });
+      //this.projects.unshift({ label: "פרוייקט", value: null })
     });
   }
 
-  onProjectSelect() {
+  onProjectSelect(event) {
+    debugger
     console.log("onProjectSelect " + this.selectedProject);
-    this.selectedCatlogId = Number.parseFloat(this.selectedProject) + 1;
+    //this.selectedCatlogId = Number.parseFloat(this.selectedProject) + 1;
   }
 
   onClick() {
@@ -85,8 +90,8 @@ export class NewBriefFormComponent implements OnInit {
         this.selectedUser,
         this.formats,
         this.selectedClient,
-        this.dueDate?this.dueDate.getTime():null
-      ) 
+        this.dueDate ? this.dueDate.getTime() : null
+      )
 
       this.save.emit({ event: event, brief: newBrief });
       this.dataForm.reset();
